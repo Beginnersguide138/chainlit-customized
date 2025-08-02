@@ -1,0 +1,4 @@
+.files
+sample
+.venv
+__pycache__/*
