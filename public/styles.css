@@ -1,0 +1,366 @@
+/* Chainlit カスタマイズ用CSS */
+
+/* ライトモード基本テーマカラー */
+:root {
+  --primary-color: #667eea;
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --hero-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --secondary-color: #f8fafc;
+  --background-color: #ffffff;
+  --surface-color: #ffffff;
+  --text-color: #1f2937;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --chat-bg: #f9fafb;
+}
+
+/* ダークモード対応 */
+[data-theme="dark"] {
+  --primary-color: #818cf8;
+  --primary-gradient: linear-gradient(135deg, #818cf8 0%, #a855f7 100%);
+  --hero-gradient: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+  --secondary-color: #374151;
+  --background-color: #111827;
+  --surface-color: #1f2937;
+  --text-color: #f9fafb;
+  --text-muted: #9ca3af;
+  --border-color: #374151;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  --chat-bg: #0f172a;
+}
+
+/* 全体の背景 */
+body {
+  background: var(--chat-bg);
+  transition: background-color 0.3s ease;
+}
+
+/* チャット画面全体の背景グラデーション */
+.chainlit--main {
+  background: var(--chat-bg);
+  position: relative;
+}
+
+.chainlit--main::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+[data-theme="dark"] .chainlit--main::before {
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(30, 58, 138, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(49, 46, 129, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(30, 58, 138, 0.1) 0%, transparent 50%);
+}
+
+/* チャット全体のスタイリング */
+.chainlit-chat {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* メッセージバブルのカスタマイズ */
+.message-bubble {
+  border-radius: 18px;
+  padding: 12px 16px;
+  max-width: 80%;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.message-bubble.user {
+  background: var(--primary-gradient);
+  color: white;
+  margin-left: auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.message-bubble.assistant {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .message-bubble.assistant {
+  background: rgba(31, 41, 55, 0.8);
+  border: 1px solid var(--border-color);
+}
+
+/* チャットコンテナの改善 */
+.chainlit-chat-container {
+  background: transparent;
+}
+
+/* スクロールバーのカスタマイズ */
+.chainlit-chat::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chainlit-chat::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chainlit-chat::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.chainlit-chat::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* アクションボタンのスタイリング */
+.action-button {
+  background: var(--surface-color);
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(10px);
+}
+
+.action-button:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+[data-theme="dark"] .action-button {
+  background: rgba(31, 41, 55, 0.8);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+[data-theme="dark"] .action-button:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* チャットプロファイル選択 */
+.chat-profile {
+  background: var(--surface-color);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.chat-profile:hover {
+  border-color: var(--primary-color);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.chat-profile.selected {
+  border-color: var(--primary-color);
+  background: var(--secondary-color);
+  box-shadow: var(--shadow-lg);
+}
+
+[data-theme="dark"] .chat-profile {
+  background: rgba(31, 41, 55, 0.6);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .chat-profile.selected {
+  background: rgba(55, 65, 81, 0.8);
+  border-color: var(--primary-color);
+}
+
+/* カスタム要素のスタイリング */
+.custom-element {
+  background: var(--surface-color);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .custom-element {
+  background: rgba(31, 41, 55, 0.8);
+  border-color: var(--border-color);
+}
+
+/* ファイルアップロード領域 */
+.file-upload-area {
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  transition: all 0.2s ease;
+  background: var(--secondary-color);
+  backdrop-filter: blur(10px);
+}
+
+.file-upload-area:hover {
+  border-color: var(--primary-color);
+  background: var(--surface-color);
+  transform: translateY(-2px);
+}
+
+.file-upload-area.dragover {
+  border-color: var(--primary-color);
+  background: var(--surface-color);
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+[data-theme="dark"] .file-upload-area {
+  background: rgba(55, 65, 81, 0.4);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .file-upload-area:hover,
+[data-theme="dark"] .file-upload-area.dragover {
+  background: rgba(55, 65, 81, 0.8);
+  border-color: var(--primary-color);
+}
+
+/* サイドバーのスタイリング */
+.sidebar {
+  background: var(--surface-color);
+  border-left: 1px solid var(--border-color);
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.sidebar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+[data-theme="dark"] .sidebar {
+  background: rgba(31, 41, 55, 0.8);
+  border-left-color: var(--border-color);
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .message-bubble {
+    max-width: 90%;
+  }
+  
+  .custom-element {
+    margin: 8px 0;
+    padding: 12px;
+  }
+  
+  .action-button {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-bubble {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ローディングアニメーション */
+.loading-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* トースト通知 */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast.success {
+  border-left: 4px solid #10b981;
+}
+
+.toast.error {
+  border-left: 4px solid #ef4444;
+}
+
+.toast.warning {
+  border-left: 4px solid #f59e0b;
+}
+
+.toast.info {
+  border-left: 4px solid var(--primary-color);
+}
