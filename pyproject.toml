@@ -6,4 +6,5 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "chainlit>=2.6.4",
+    "toml>=0.10.2",
 ]

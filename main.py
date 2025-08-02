@@ -2,6 +2,7 @@ import chainlit as cl
 from typing import Dict, Any, List
 import asyncio
 import json
+from config_editor import show_config_editor
 
 # Simple landing page HTML
 landing_page_html = """
@@ -112,6 +113,10 @@ chat_profiles = [
             cl.Starter(
                 label="🚀 Full Feature Demo",
                 message="demo",
+            ),
+            cl.Starter(
+                label="⚙️ Settings Editor",
+                message="⚙️",
             )
         ]
     ),
@@ -153,16 +158,24 @@ async def chat_profile():
 
 @cl.on_chat_start
 async def start():
+    # Initialize settings editor
+    from config_editor import create_config_settings
+    await create_config_settings()
+    
     # Command configuration
     commands = [
         {"id": "search", "icon": "search", "description": "Web search functionality"},
         {"id": "analysis", "icon": "chart-bar", "description": "Data analysis & insights"},
         {"id": "custom", "icon": "palette", "description": "Show custom prompts"},
         {"id": "info", "icon": "info", "description": "Show tech info cards"},
-        {"id": "demo", "icon": "rocket", "description": "Full feature demo"}
+        {"id": "demo", "icon": "rocket", "description": "Full feature demo"},
+        {"id": "settings", "icon": "settings", "description": "Edit Chainlit settings"}
     ]
     
     await cl.context.emitter.set_commands(commands)
+    
+    # Initialize right sidebar
+    await cl.ElementSidebar.set_elements([])
 
 @cl.on_message
 async def main(message: cl.Message):
@@ -198,6 +211,9 @@ async def handle_ai_assistant(message: cl.Message):
         elif command == "demo":
             await show_feature_demo()
             return
+        elif command == "settings":
+            await show_config_editor()
+            return
     
     # Handle special content messages
     if message.content == "🎨":
@@ -208,6 +224,9 @@ async def handle_ai_assistant(message: cl.Message):
         return
     elif message.content.lower() in ["demo", "features"]:
         await show_feature_demo()
+        return
+    elif message.content == "⚙️":
+        await show_config_editor()
         return
     
     # Basic response
@@ -220,6 +239,7 @@ async def handle_ai_assistant(message: cl.Message):
         cl.Action(name="action_custom", label="🎨 Custom Prompts", payload="custom"),
         cl.Action(name="action_info", label="📋 Tech Info", payload="info"),
         cl.Action(name="action_demo", label="⭐ Full Demo", payload="demo"),
+        cl.Action(name="action_settings", label="⚙️ Settings", payload="settings"),
     ]
     
     await cl.Message(content=response, actions=actions).send()
@@ -265,12 +285,35 @@ async def handle_document_helper(message: cl.Message):
     files = message.elements or []
     
     if files:
+        # ファイルがアップロードされた場合、右側ペインに表示
+        sidebar_elements = []
+        for file in files:
+            if file.mime and file.mime.startswith('image/'):
+                # 画像ファイルの場合
+                sidebar_elements.append(cl.Image(name=file.name, path=file.path))
+            elif file.mime == 'application/pdf':
+                # PDFファイルの場合
+                sidebar_elements.append(cl.Pdf(name=file.name, path=file.path))
+            elif file.mime and (file.mime.startswith('text/') or 'json' in file.mime):
+                # テキストファイルの場合
+                with open(file.path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                sidebar_elements.append(cl.Text(name=file.name, content=content))
+            else:
+                # その他のファイルの場合
+                sidebar_elements.append(cl.File(name=file.name, path=file.path))
+        
+        # 右側ペインに表示
+        await cl.ElementSidebar.set_elements(sidebar_elements)
+        await cl.ElementSidebar.set_title("アップロードファイル")
+        
         file_list = [f"- {file.name}" for file in files]
-        response = f"Analyzed uploaded files ({len(files)} files).\n\n" + "\n".join(file_list) + f"\n\nQuestion: {message.content}"
+        response = f"Analyzed uploaded files ({len(files)} files).\n\n" + "\n".join(file_list) + f"\n\nQuestion: {message.content}\n\nFiles are displayed in the side panel for your reference."
+        
+        await cl.Message(content=response).send()
     else:
         response = f"Document Helper responding:\n\n{message.content}\n\nUpload files for more detailed analysis."
-    
-    await cl.Message(content=response).send()
+        await cl.Message(content=response).send()
 
 async def show_custom_prompts():
     # Custom prompt sample data
@@ -540,6 +583,11 @@ Main frontend technologies used in this demo:
 • **Responsive Design**: Mobile-first, flexible layouts"""
     
     await cl.Message(content=frontend_content).send()
+
+@cl.action_callback("action_settings")
+async def on_action_settings(action):
+    """Display settings editor"""
+    await show_config_editor()
 
 if __name__ == "__main__":
     print("Chainlit Customization Demo - Run with: chainlit run main.py")
