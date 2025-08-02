@@ -364,3 +364,680 @@ body {
 .toast.info {
   border-left: 4px solid var(--primary-color);
 }
+
+/* 高度な背景アニメーション効果 */
+.animated-background {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+  animation: floatingGradients 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -2;
+}
+
+[data-theme="dark"] .animated-background::before {
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(30, 58, 138, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(49, 46, 129, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(30, 58, 138, 0.2) 0%, transparent 50%);
+}
+
+@keyframes floatingGradients {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+/* グラスモーフィズム効果 */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .glass-effect {
+  background: rgba(17, 24, 39, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* ネオモーフィズム効果 */
+.neomorphism {
+  background: var(--surface-color);
+  box-shadow: 
+    12px 12px 24px rgba(0, 0, 0, 0.1),
+    -12px -12px 24px rgba(255, 255, 255, 0.8);
+  border: none;
+}
+
+[data-theme="dark"] .neomorphism {
+  background: var(--surface-color);
+  box-shadow: 
+    12px 12px 24px rgba(0, 0, 0, 0.3),
+    -12px -12px 24px rgba(255, 255, 255, 0.02);
+}
+
+.neomorphism.inset {
+  box-shadow: 
+    inset 6px 6px 12px rgba(0, 0, 0, 0.1),
+    inset -6px -6px 12px rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="dark"] .neomorphism.inset {
+  box-shadow: 
+    inset 6px 6px 12px rgba(0, 0, 0, 0.3),
+    inset -6px -6px 12px rgba(255, 255, 255, 0.02);
+}
+
+/* 高度なホバー効果 */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.hover-glow {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.hover-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--primary-gradient);
+  border-radius: inherit;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+  filter: blur(20px);
+}
+
+.hover-glow:hover::before {
+  opacity: 0.4;
+}
+
+/* カスタムスクロールバー（WebKit） */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--secondary-color);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+  filter: brightness(1.2);
+}
+
+/* ツールチップ機能 */
+.tooltip-trigger {
+  position: relative;
+  cursor: help;
+}
+
+.tooltip-content {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface-color);
+  color: var(--text-color);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1000;
+  margin-bottom: 5px;
+}
+
+.tooltip-content::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--surface-color);
+}
+
+.tooltip-trigger:hover .tooltip-content {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* プログレスバー */
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--secondary-color);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary-gradient);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    transparent 35%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    transparent 65%);
+  animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* レスポンシブユーティリティ */
+@media (max-width: 1024px) {
+  .hide-lg {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .hide-md {
+    display: none !important;
+  }
+  
+  .hover-lift:hover {
+    transform: none;
+  }
+  
+  .neomorphism {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media (max-width: 640px) {
+  .hide-sm {
+    display: none !important;
+  }
+}
+
+/* 動的背景システム - サンプルから適用 */
+
+/* 星空背景アニメーション */
+html, body {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* 星空のベース要素 */
+#stars, #stars2, #stars3 {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: transparent;
+  z-index: -10;
+  pointer-events: none;
+}
+
+/* メイン星フィールド */
+#stars {
+  width: 1px;
+  height: 1px;
+  box-shadow: 
+    80px 100px #FFF, 200px 300px #FFF, 400px 150px #FFF, 600px 250px #FFF,
+    800px 400px #FFF, 1000px 200px #FFF, 1200px 350px #FFF, 1400px 100px #FFF,
+    1600px 450px #FFF, 1800px 300px #FFF, 100px 500px #FFF, 300px 600px #FFF,
+    500px 700px #FFF, 700px 550px #FFF, 900px 650px #FFF, 1100px 750px #FFF,
+    1300px 500px #FFF, 1500px 600px #FFF, 1700px 700px #FFF, 1900px 550px #FFF;
+  animation: animStar 300s linear infinite;
+}
+
+#stars:after {
+  content: " ";
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow: 
+    150px 200px #FFF, 350px 400px #FFF, 550px 250px #FFF, 750px 350px #FFF,
+    950px 500px #FFF, 1150px 300px #FFF, 1350px 450px #FFF, 1550px 200px #FFF,
+    1750px 550px #FFF, 1950px 400px #FFF, 200px 600px #FFF, 400px 700px #FFF,
+    600px 800px #FFF, 800px 650px #FFF, 1000px 750px #FFF, 1200px 850px #FFF,
+    1400px 600px #FFF, 1600px 700px #FFF, 1800px 800px #FFF, 2000px 650px #FFF;
+  animation: animStar 300s linear infinite;
+}
+
+/* 中サイズの星 */
+#stars2 {
+  width: 1px;
+  height: 2px;
+  box-shadow: 
+    120px 150px #FFF, 320px 350px #FFF, 520px 200px #FFF, 720px 300px #FFF,
+    920px 450px #FFF, 1120px 250px #FFF, 1320px 400px #FFF, 1520px 150px #FFF,
+    1720px 500px #FFF, 1920px 350px #FFF, 180px 550px #FFF, 380px 650px #FFF,
+    580px 750px #FFF, 780px 600px #FFF, 980px 700px #FFF, 1180px 800px #FFF;
+  animation: animStar 100s linear infinite;
+}
+
+#stars2:after {
+  content: " ";
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  box-shadow: 
+    180px 250px #FFF, 380px 450px #FFF, 580px 300px #FFF, 780px 400px #FFF,
+    980px 550px #FFF, 1180px 350px #FFF, 1380px 500px #FFF, 1580px 250px #FFF,
+    1780px 600px #FFF, 1980px 450px #FFF, 280px 650px #FFF, 480px 750px #FFF;
+  animation: animStar 100s linear infinite;
+}
+
+/* 大きな星 */
+#stars3 {
+  width: 3px;
+  height: 2px;
+  box-shadow: 
+    200px 200px #FFF, 400px 400px #FFF, 600px 250px #FFF, 800px 350px #FFF,
+    1000px 500px #FFF, 1200px 300px #FFF, 1400px 450px #FFF, 1600px 200px #FFF,
+    1800px 550px #FFF, 2000px 400px #FFF, 250px 600px #FFF, 450px 700px #FFF;
+  animation: animStar 30s linear infinite;
+}
+
+/* 星のアニメーション */
+@keyframes animStar {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-2000px);
+  }
+}
+
+/* 昼間の雲背景用のCanvas */
+#canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -5;
+  pointer-events: none;
+}
+
+/* 月のマスクとSVG要素 */
+#moon-mask-svg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: -15;
+  pointer-events: none;
+}
+
+/* ストロベリームーン */
+#strawberry-moon {
+  position: fixed;
+  width: 8rem;
+  height: 8rem;
+  filter: sepia(0.9) saturate(0.9) hue-rotate(-27deg);
+  z-index: -8;
+  pointer-events: none;
+  transition: all 1s ease-in-out;
+}
+
+/* 動的グラスモーフィズム効果 */
+.dynamic-glassmorphism-light {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.dynamic-glassmorphism-dark {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 昼のグラデーション背景 */
+.day-sky {
+  background: radial-gradient(ellipse at bottom, #9ddde9 0%, #004bb169 100%) !important;
+}
+
+/* 夜のグラデーション背景 */
+.night-sky {
+  background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%) !important;
+}
+
+/* テーマ切り替えのトランジション */
+html, body {
+  transition: background 0.8s ease-in-out;
+}
+
+/* Chainlitメッセージコンテナの調整 */
+div[data-step-type="assistant_message"] {
+  border-radius: 12px !important;
+  margin: 0.5rem 0 !important;
+  transition: all 0.3s ease !important;
+}
+
+/* 引用機能のツールチップスタイル */
+.quote-tooltip {
+  position: absolute;
+  display: none;
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  padding: 8px 16px;
+  border-radius: 8px;
+  z-index: 1000;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+.quote-tooltip:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+#quote {
+  background: var(--secondary-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+  font-style: italic;
+  opacity: 0.9;
+  backdrop-filter: blur(5px);
+  display: none;
+}
+
+/* ダークモード専用の星の明度調整 */
+[data-theme="dark"] #stars,
+[data-theme="dark"] #stars:after,
+[data-theme="dark"] #stars2,
+[data-theme="dark"] #stars2:after,
+[data-theme="dark"] #stars3 {
+  filter: brightness(1.2);
+}
+
+/* ライトモードでの星の非表示 */
+[data-theme="light"] #stars,
+[data-theme="light"] #stars:after,
+[data-theme="light"] #stars2,
+[data-theme="light"] #stars2:after,
+[data-theme="light"] #stars3 {
+  display: none;
+}
+
+/* 月の表示制御 */
+[data-theme="light"] #strawberry-moon {
+  display: none;
+}
+
+/* カスタムプロンプトとカードの追加スタイル */
+.custom-prompts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 0;
+}
+
+.custom-prompt-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 0.8rem;
+}
+
+.custom-prompt-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.custom-prompt-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.custom-prompt-icon {
+  font-size: 1.2rem;
+}
+
+.custom-prompt-title {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.custom-prompt-category {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-bottom: 0.5rem;
+}
+
+.custom-prompt-content {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+/* 情報カードスタイル */
+.info-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.info-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.info-card-content {
+  padding: 1.5rem;
+}
+
+.info-card-category {
+  display: inline-block;
+  background: var(--primary-color);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.info-card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+.info-card-description {
+  opacity: 0.8;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.info-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+
+.info-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.info-items {
+  margin-top: 1rem;
+}
+
+.info-item {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.info-item-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+.info-item-description {
+  opacity: 0.8;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* ダークモード用カードスタイル調整 */
+[data-theme="dark"] .custom-prompt-card {
+  background: rgba(31, 41, 55, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .custom-prompt-card:hover {
+  background: rgba(31, 41, 55, 0.8);
+}
+
+[data-theme="dark"] .info-card {
+  background: rgba(31, 41, 55, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .info-card:hover {
+  background: rgba(31, 41, 55, 0.8);
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+  .custom-prompts-container {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  
+  .info-cards-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .info-features {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .custom-prompt-card {
+    padding: 0.8rem;
+  }
+  
+  .info-card-content {
+    padding: 1rem;
+  }
+  
+  #strawberry-moon {
+    width: 6rem;
+    height: 6rem;
+  }
+}
