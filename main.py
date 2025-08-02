@@ -3,21 +3,21 @@ from typing import Dict, Any, List
 import asyncio
 import json
 
-# 簡素なランディングページHTML
+# Simple landing page HTML
 landing_page_html = """
 <div class"wrapper">
 <div class="compact-hero">
     <div class="hero-content">
         <h1 class="hero-title">
-            🚀 Chainlit カスタマイズデモ
+            🚀 Chainlit Customization Demo
         </h1>
         <p class="hero-subtitle">
-            商用プロジェクトのカスタマイズ手法を一般化したデモアプリ
+            Demo app showcasing commercial project customization techniques
         </p>
         <div class="features-grid">
-            <span class="feature-item">🎨 カスタムプロンプト</span>
-            <span class="feature-item">📋 技術情報カード</span>
-            <span class="feature-item">🚀 全機能デモ</span>
+            <span class="feature-item">🎨 Custom Prompts</span>
+            <span class="feature-item">📋 Tech Info Cards</span>
+            <span class="feature-item">🚀 Full Feature Demo</span>
         </div>
     </div>
 </div>
@@ -93,7 +93,7 @@ landing_page_html = """
 </style>
 """
 
-# チャットプロファイル設定
+# Chat profile configuration
 chat_profiles = [
     cl.ChatProfile(
         name="AI Assistant",
@@ -102,46 +102,46 @@ chat_profiles = [
         default=True,
         starters=[
             cl.Starter(
-                label="🎨 カスタムプロンプト管理",
+                label="🎨 Custom Prompt Management",
                 message="🎨",
             ),
             cl.Starter(
-                label="📋 技術情報カード",
+                label="📋 Tech Info Cards",
                 message="📋",
             ),
             cl.Starter(
-                label="🚀 全機能デモ",
+                label="🚀 Full Feature Demo",
                 message="demo",
             )
         ]
     ),
     cl.ChatProfile(
         name="Web Search",
-        markdown_description="Web検索機能付きのアシスタント。最新情報を調べます。\n\n*注意: このデモでは実際の検索は行いません。*",
+        markdown_description="Assistant with web search capabilities. Finds the latest information.\n\n*Note: This demo does not perform actual searches.*",
         icon="https://img.icons8.com/?size=100&id=BpLxiRbSRN80&format=png",
         starters=[
             cl.Starter(
-                label="検索デモ",
-                message="最新のAI技術について調べてください",
+                label="Search Demo",
+                message="Please search for the latest AI technologies",
             ),
             cl.Starter(
-                label="ニュース検索",
-                message="今日のテック関連ニュースを教えてください",
+                label="News Search",
+                message="Tell me about today's tech-related news",
             )
         ]
     ),
     cl.ChatProfile(
         name="Document Helper",
-        markdown_description="ドキュメント分析・要約が得意なアシスタント。\n\nファイルをアップロードして分析機能を試してみてください。",
+        markdown_description="Assistant specialized in document analysis and summarization.\n\nUpload files to try the analysis features.",
         icon="https://img.icons8.com/?size=100&id=85784&format=png",
         starters=[
             cl.Starter(
-                label="ファイル分析の説明",
-                message="ファイル分析機能について教えてください",
+                label="File Analysis Explanation",
+                message="Please explain the file analysis features",
             ),
             cl.Starter(
-                label="対応ファイル形式",
-                message="どのようなファイル形式に対応していますか？",
+                label="Supported File Formats",
+                message="What file formats are supported?",
             )
         ]
     )
@@ -153,13 +153,13 @@ async def chat_profile():
 
 @cl.on_chat_start
 async def start():
-    # コマンドの設定
+    # Command configuration
     commands = [
-        {"id": "search", "icon": "search", "description": "Web検索機能"},
-        {"id": "analysis", "icon": "chart-bar", "description": "データ分析・解析"},
-        {"id": "custom", "icon": "palette", "description": "カスタムプロンプト表示"},
-        {"id": "info", "icon": "info", "description": "技術情報カード表示"},
-        {"id": "demo", "icon": "rocket", "description": "全機能デモ"}
+        {"id": "search", "icon": "search", "description": "Web search functionality"},
+        {"id": "analysis", "icon": "chart-bar", "description": "Data analysis & insights"},
+        {"id": "custom", "icon": "palette", "description": "Show custom prompts"},
+        {"id": "info", "icon": "info", "description": "Show tech info cards"},
+        {"id": "demo", "icon": "rocket", "description": "Full feature demo"}
     ]
     
     await cl.context.emitter.set_commands(commands)
@@ -175,18 +175,18 @@ async def main(message: cl.Message):
     elif chat_profile == "Document Helper":
         await handle_document_helper(message)
     else:
-        await cl.Message(content="プロファイルを選択してください。").send()
+        await cl.Message(content="Please select a profile.").send()
 
 async def handle_ai_assistant(message: cl.Message):
-    # コマンドの処理を最優先で行う
+    # Process commands with highest priority
     if message.command:
         command = message.command
         if command == "search":
-            response = f"🔍 **Web検索コマンド実行**\n\n検索クエリ: {message.content}\n\n（実際の検索機能は実装されていません）"
+            response = f"🔍 **Web Search Command Executed**\n\nSearch Query: {message.content}\n\n(Actual search functionality is not implemented)"
             await cl.Message(content=response).send()
             return
         elif command == "analysis":
-            response = f"📊 **データ分析コマンド実行**\n\n分析対象: {message.content}\n\n高度な分析を実行中...\n\n（実際の分析機能は実装されていません）"
+            response = f"📊 **Data Analysis Command Executed**\n\nAnalysis Target: {message.content}\n\nRunning advanced analysis...\n\n(Actual analysis functionality is not implemented)"
             await cl.Message(content=response).send()
             return
         elif command == "custom":
@@ -199,54 +199,54 @@ async def handle_ai_assistant(message: cl.Message):
             await show_feature_demo()
             return
     
-    # 特殊コンテンツメッセージの処理
+    # Handle special content messages
     if message.content == "🎨":
         await show_custom_prompts()
         return
-    elif message.content in ["📋", "info", "情報"]:
+    elif message.content in ["📋", "info"]:
         await show_info_cards()
         return
-    elif message.content.lower() in ["demo", "デモ", "機能一覧"]:
+    elif message.content.lower() in ["demo", "features"]:
         await show_feature_demo()
         return
     
-    # 基本的な応答
-    response = f"AI Assistant として回答します：\\n\\n{message.content} について考えてみますね。"
+    # Basic response
+    response = f"AI Assistant responding:\\n\\nLet me think about {message.content}."
     
-    # アクション付きメッセージ
+    # Message with actions
     actions = [
-        cl.Action(name="action_summary", label="📝 要約を作成", payload="summary"),
-        cl.Action(name="action_detail", label="🔍 詳細を説明", payload="detail"),
-        cl.Action(name="action_custom", label="🎨 カスタムプロンプト", payload="custom"),
-        cl.Action(name="action_info", label="📋 技術情報", payload="info"),
-        cl.Action(name="action_demo", label="⭐ 全機能デモ", payload="demo"),
+        cl.Action(name="action_summary", label="📝 Create Summary", payload="summary"),
+        cl.Action(name="action_detail", label="🔍 Explain Details", payload="detail"),
+        cl.Action(name="action_custom", label="🎨 Custom Prompts", payload="custom"),
+        cl.Action(name="action_info", label="📋 Tech Info", payload="info"),
+        cl.Action(name="action_demo", label="⭐ Full Demo", payload="demo"),
     ]
     
     await cl.Message(content=response, actions=actions).send()
 
 async def show_feature_demo():
-    """全機能のデモを表示"""
+    """Display full feature demo"""
     await cl.Message(
-        content="🚀 **Chainlit カスタマイズデモ - 全機能**\\n\\n以下のコマンドで各機能を体験できます："
+        content="🚀 **Chainlit Customization Demo - All Features**\\n\\nExperience each feature with the following commands:"
     ).send()
     
-    # 機能説明
+    # Feature description
     features_text = """
-**📱 基本機能:**
-- `🎨` - カスタムプロンプト管理（追加・編集・削除可能）
-- `📋` - 技術情報カード表示
+**📱 Basic Features:**
+- `🎨` - Custom prompt management (add, edit, delete)
+- `📋` - Tech info card display
 
-**🎯 高度な機能:**
-- グラスモーフィズム効果
-- ネオモーフィズムUI
-- レスポンシブデザイン
-- ダークモード対応
-- ローカルストレージ活用
+**🎯 Advanced Features:**
+- Glassmorphism effects
+- Neumorphism UI
+- Responsive design
+- Dark mode support
+- Local storage utilization
 
-**💡 使い方のヒント:**
-- ファイルをアップロードして Document Helper を試してみてください
-- 各プロファイルで異なる機能を体験できます
-- アクションボタンで素早く機能にアクセスできます
+**💡 Usage Tips:**
+- Upload files to try Document Helper
+- Experience different features in each profile
+- Quick access to features via action buttons
 """
     
     await cl.Message(content=features_text).send()
@@ -257,71 +257,71 @@ async def show_feature_demo():
     await show_info_cards()
 
 async def handle_web_search(message: cl.Message):
-    response = f"Web Search モードです。\n\n検索クエリ：{message.content}\n\n（実際の検索機能は実装されていません）"
+    response = f"Web Search mode active.\n\nSearch Query: {message.content}\n\n(Actual search functionality is not implemented)"
     await cl.Message(content=response).send()
 
 async def handle_document_helper(message: cl.Message):
-    # ファイル処理の例
+    # File processing example
     files = message.elements or []
     
     if files:
         file_list = [f"- {file.name}" for file in files]
-        response = f"アップロードされたファイル（{len(files)}個）を分析しました。\n\n" + "\n".join(file_list) + f"\n\n質問：{message.content}"
+        response = f"Analyzed uploaded files ({len(files)} files).\n\n" + "\n".join(file_list) + f"\n\nQuestion: {message.content}"
     else:
-        response = f"Document Helper として回答します：\n\n{message.content}\n\nファイルをアップロードすると、より詳細な分析が可能です。"
+        response = f"Document Helper responding:\n\n{message.content}\n\nUpload files for more detailed analysis."
     
     await cl.Message(content=response).send()
 
 async def show_custom_prompts():
-    # カスタムプロンプトのサンプルデータ
+    # Custom prompt sample data
     prompts_data = [
         {
             "id": "1",
-            "title": "要約作成",
-            "prompt": "以下の内容を簡潔に要約してください。重要なポイントを3つに絞ってお願いします。",
+            "title": "Create Summary",
+            "prompt": "Please summarize the following content concisely. Focus on 3 key points.",
             "icon": "📝",
             "category": "Analysis"
         },
         {
             "id": "2", 
-            "title": "技術説明",
-            "prompt": "技術的な内容を分かりやすく説明してください。専門用語は避けて、初心者にも理解できるようにお願いします。",
+            "title": "Technical Explanation",
+            "prompt": "Please explain technical content in an easy-to-understand way. Avoid jargon and make it accessible to beginners.",
             "icon": "🔧",
             "category": "Development"
         },
         {
             "id": "3",
-            "title": "アイデア生成",
-            "prompt": "創造的なアイデアを3つ提案してください。実現可能性も含めて説明してお願いします。",
+            "title": "Idea Generation",
+            "prompt": "Please propose 3 creative ideas. Include feasibility considerations in your explanation.",
             "icon": "💡",
             "category": "Creative"
         },
         {
             "id": "4",
-            "title": "問題解決",
-            "prompt": "この問題に対する解決策を段階的に提案してください。優先順位も含めてお願いします。",
+            "title": "Problem Solving",
+            "prompt": "Please propose step-by-step solutions to this problem. Include priority considerations.",
             "icon": "🔍",
             "category": "Analysis" 
         },
         {
             "id": "5",
-            "title": "コードレビュー",
-            "prompt": "このコードの改善点を指摘してください。パフォーマンスと可読性の観点からお願いします。",
+            "title": "Code Review",
+            "prompt": "Please point out improvements for this code. Focus on performance and readability aspects.",
             "icon": "💻",
             "category": "Development"
         },
         {
             "id": "6",
-            "title": "企画書作成",
-            "prompt": "ビジネス企画書のフォーマットで提案をまとめてください。目標・手段・期待効果を明確にお願いします。",
+            "title": "Business Proposal",
+            "prompt": "Please format the proposal as a business plan. Clearly define objectives, methods, and expected outcomes.",
             "icon": "📊",
             "category": "Business"
         }
     ]
     
-    # 高度なカスタムプロンプトリスト表示
+    # Display advanced custom prompt list
     await cl.Message(
-        content="🎨 **カスタムプロンプトメニュー**\n\n以下から選択するか、編集可能モードで独自プロンプトを作成できます：",
+        content="🎨 **Custom Prompt Menu**\n\nSelect from below or create your own prompts in editable mode:",
         elements=[
             cl.CustomElement(
                 name="CustomPromptsList",
@@ -334,38 +334,38 @@ async def show_custom_prompts():
     ).send()
 
 async def show_info_cards():
-    # 情報カードのサンプルデータ
+    # Info card sample data
     info_data = {
-        "title": "Chainlit カスタマイズ技術",
-        "description": "サンプルプロジェクトから学んだ高度なUI/UX技術を一般化",
+        "title": "Chainlit Customization Technology",
+        "description": "Generalized advanced UI/UX techniques learned from sample projects",
         "image_url": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop",
-        "category": "技術デモ",
+        "category": "Tech Demo",
         "features": [
-            {"icon": "🎨", "text": "グラスモーフィズム効果"},
-            {"icon": "⚡", "text": "高性能アニメーション"},
-            {"icon": "📱", "text": "レスポンシブデザイン"},
-            {"icon": "🌙", "text": "ダークモード対応"},
-            {"icon": "💾", "text": "ローカルストレージ活用"},
-            {"icon": "🔧", "text": "カスタムコンポーネント"}
+            {"icon": "🎨", "text": "Glassmorphism Effects"},
+            {"icon": "⚡", "text": "High-Performance Animations"},
+            {"icon": "📱", "text": "Responsive Design"},
+            {"icon": "🌙", "text": "Dark Mode Support"},
+            {"icon": "💾", "text": "Local Storage Utilization"},
+            {"icon": "🔧", "text": "Custom Components"}
         ],
         "items": [
             {
-                "title": "カスタムプロンプト管理",
-                "description": "ローカルストレージベースのプロンプト管理システム。追加・編集・削除が可能です。"
+                "title": "Custom Prompt Management",
+                "description": "Local storage-based prompt management system. Supports add, edit, and delete operations."
             },
             {
-                "title": "情報カード表示",
-                "description": "構造化された情報を美しく表示するカードコンポーネント。背景画像やアニメーション効果に対応。"
+                "title": "Info Card Display",
+                "description": "Card components that beautifully display structured information. Supports background images and animation effects."
             },
             {
-                "title": "高度なCSS効果",
-                "description": "ネオモーフィズム、グラスモーフィズム、ホバー効果など最新のCSS技術を活用。"
+                "title": "Advanced CSS Effects",
+                "description": "Utilizes latest CSS technologies including neumorphism, glassmorphism, and hover effects."
             }
         ]
     }
     
     await cl.Message(
-        content="📋 **技術情報カード**\n\n実装された技術の詳細：",
+        content="📋 **Tech Info Cards**\n\nDetails of implemented technologies:",
         elements=[
             cl.CustomElement(
                 name="InfoCards",
@@ -377,169 +377,169 @@ async def show_info_cards():
 
 @cl.action_callback("action_summary")
 async def on_action_summary(action):
-    """要約作成アクション - 追加メッセージと関連質問を送信"""
-    summary_content = """📝 **要約作成を開始します**
+    """Summary creation action - send additional messages and related questions"""
+    summary_content = """📝 **Starting Summary Creation**
 
-以下の内容を簡潔に要約いたします。重要なポイントを3つに絞って整理します：
+I will concisely summarize the following content, organizing it into 3 key points:
 
-**要約の観点:**
-• 主要なポイントとテーマ
-• 重要な詳細と背景情報  
-• 結論と推奨事項
+**Summary Perspectives:**
+• Main points and themes
+• Important details and background information  
+• Conclusions and recommendations
 
-要約が完了しましたら、さらに詳細な分析や関連する質問もお気軽にどうぞ。"""
+Once the summary is complete, feel free to ask for more detailed analysis or related questions."""
 
-    # 追加のアクション付きメッセージ
+    # Additional actions with message
     follow_up_actions = [
-        cl.Action(name="action_analysis_deep", label="🔬 詳細分析", payload="deep_analysis"),
-        cl.Action(name="action_questions", label="❓ 関連質問", payload="questions"),
-        cl.Action(name="action_export_summary", label="📄 要約エクスポート", payload="export_summary")
+        cl.Action(name="action_analysis_deep", label="🔬 Deep Analysis", payload="deep_analysis"),
+        cl.Action(name="action_questions", label="❓ Related Questions", payload="questions"),
+        cl.Action(name="action_export_summary", label="📄 Export Summary", payload="export_summary")
     ]
     
     await cl.Message(content=summary_content, actions=follow_up_actions).send()
 
 @cl.action_callback("action_detail") 
 async def on_action_detail(action):
-    """詳細説明アクション - 追加メッセージと専門的な観点を提供"""
-    detail_content = """🔍 **詳細説明を開始します**
+    """Detailed explanation action - provide additional messages and professional perspectives"""
+    detail_content = """🔍 **Starting Detailed Explanation**
 
-以下の観点から詳細に説明いたします：
+I will explain in detail from the following perspectives:
 
-**技術的観点:**
-• 実装方法と技術仕様
-• メリット・デメリット
-• 使用事例と応用範囲
+**Technical Perspective:**
+• Implementation methods and technical specifications
+• Advantages and disadvantages
+• Use cases and application scope
 
-**ビジネス観点:**  
-• 実用性と効果
-• コストと ROI
-• 導入時の考慮事項
+**Business Perspective:**  
+• Practicality and effectiveness
+• Cost and ROI
+• Implementation considerations
 
-詳細説明の後、具体的な実装方法や追加の技術情報についてもお答えできます。"""
+After the detailed explanation, I can also answer questions about specific implementation methods or additional technical information."""
 
-    # 追加のアクション付きメッセージ
+    # Additional actions with message
     follow_up_actions = [
-        cl.Action(name="action_implementation", label="⚙️ 実装方法", payload="implementation"),
-        cl.Action(name="action_examples", label="💡 具体例", payload="examples"),
-        cl.Action(name="action_best_practices", label="🎯 ベストプラクティス", payload="best_practices")
+        cl.Action(name="action_implementation", label="⚙️ Implementation", payload="implementation"),
+        cl.Action(name="action_examples", label="💡 Examples", payload="examples"),
+        cl.Action(name="action_best_practices", label="🎯 Best Practices", payload="best_practices")
     ]
     
     await cl.Message(content=detail_content, actions=follow_up_actions).send()
 
 @cl.action_callback("action_custom")
 async def on_action_custom(action):
-    """カスタムプロンプト表示 - 関連機能も提案"""
+    """Custom prompt display - also suggest related features"""
     await show_custom_prompts()
     
-    # 追加のガイダンスメッセージ
-    guidance_content = """💡 **カスタムプロンプト活用のヒント**
+    # Additional guidance message
+    guidance_content = """💡 **Custom Prompt Usage Tips**
 
-• プロンプトを選択して即座に適用
-• 独自プロンプトの作成・編集が可能
-• カテゴリ別に整理された効率的な管理
+• Select prompts for immediate application
+• Create and edit your own prompts
+• Efficient management organized by categories
 
-より効果的な活用方法についてもお気軽にご質問ください。"""
+Feel free to ask about more effective usage methods."""
 
     guidance_actions = [
-        cl.Action(name="action_prompt_tips", label="📚 活用法", payload="prompt_tips"),
-        cl.Action(name="action_create_prompt", label="✏️ 新規作成", payload="create_prompt")
+        cl.Action(name="action_prompt_tips", label="📚 Usage Tips", payload="prompt_tips"),
+        cl.Action(name="action_create_prompt", label="✏️ Create New", payload="create_prompt")
     ]
     
     await cl.Message(content=guidance_content, actions=guidance_actions).send()
 
 @cl.action_callback("action_info")
 async def on_action_info(action):
-    """技術情報表示 - 関連技術についても案内"""
+    """Tech info display - also guide about related technologies"""
     await show_info_cards()
     
-    # 技術的なフォローアップ
-    tech_content = """🔧 **技術情報の詳細について**
+    # Technical follow-up
+    tech_content = """🔧 **About Technical Information Details**
 
-表示された技術情報について、さらに深く知りたい分野はありますか？
+Which areas would you like to know more about regarding the displayed technical information?
 
-• **フロントエンド技術**: React、CSS効果、アニメーション
-• **バックエンド技術**: Chainlit、Python、API設計  
-• **UI/UX デザイン**: レスポンシブ、アクセシビリティ
-• **パフォーマンス**: 最適化、ローディング、メモリ管理"""
+• **Frontend Technologies**: React, CSS effects, animations
+• **Backend Technologies**: Chainlit, Python, API design  
+• **UI/UX Design**: Responsive, accessibility
+• **Performance**: Optimization, loading, memory management"""
 
     tech_actions = [
-        cl.Action(name="action_frontend", label="🎨 フロントエンド", payload="frontend"),
-        cl.Action(name="action_backend", label="⚙️ バックエンド", payload="backend"),
-        cl.Action(name="action_performance", label="⚡ パフォーマンス", payload="performance")
+        cl.Action(name="action_frontend", label="🎨 Frontend", payload="frontend"),
+        cl.Action(name="action_backend", label="⚙️ Backend", payload="backend"),
+        cl.Action(name="action_performance", label="⚡ Performance", payload="performance")
     ]
     
     await cl.Message(content=tech_content, actions=tech_actions).send()
 
 @cl.action_callback("action_demo") 
 async def on_action_demo(action):
-    """全機能デモ - カスタマイズのヒントも提供"""
+    """Full feature demo - also provide customization tips"""
     await show_feature_demo()
     
-    # カスタマイズガイダンス
-    customization_content = """🛠️ **カスタマイズのヒント**
+    # Customization guidance
+    customization_content = """🛠️ **Customization Tips**
 
-このデモで紹介している技術は、以下のような用途でカスタマイズ可能です：
+The technologies showcased in this demo can be customized for various purposes:
 
-• **企業向けダッシュボード**: ブランドカラーとロゴの適用
-• **教育プラットフォーム**: 学習進捗の可視化
-• **顧客サポートシステム**: FAQ統合とチケット管理
-• **データ分析ツール**: チャート表示とレポート生成
+• **Enterprise Dashboards**: Apply brand colors and logos
+• **Educational Platforms**: Visualize learning progress
+• **Customer Support Systems**: FAQ integration and ticket management
+• **Data Analysis Tools**: Chart display and report generation
 
-具体的なカスタマイズ方法についてもサポートできます。"""
+I can also support specific customization methods."""
 
     customization_actions = [
-        cl.Action(name="action_branding", label="🎨 ブランディング", payload="branding"),
-        cl.Action(name="action_integration", label="🔗 システム連携", payload="integration"),
-        cl.Action(name="action_deployment", label="🚀 デプロイメント", payload="deployment")
+        cl.Action(name="action_branding", label="🎨 Branding", payload="branding"),
+        cl.Action(name="action_integration", label="🔗 System Integration", payload="integration"),
+        cl.Action(name="action_deployment", label="🚀 Deployment", payload="deployment")
     ]
     
     await cl.Message(content=customization_content, actions=customization_actions).send()
 
-# 追加のアクションコールバック関数
+# Additional action callback functions
 @cl.action_callback("action_analysis_deep")
 async def on_action_analysis_deep(action):
-    await cl.Message(content="🔬 **詳細分析を実行中**\n\nデータの深層分析、トレンド識別、相関関係の特定を行います...").send()
+    await cl.Message(content="🔬 **Running Deep Analysis**\n\nPerforming data deep analysis, trend identification, and correlation detection...").send()
 
 @cl.action_callback("action_questions")
 async def on_action_questions(action):
-    questions_content = """❓ **関連質問の提案**
+    questions_content = """❓ **Related Question Suggestions**
 
-以下のような観点から追加でご質問いただけます：
+You can ask additional questions from the following perspectives:
 
-• この情報をビジネスにどう活用できるか？
-• 類似の技術や代替案はあるか？
-• 実装時の注意点やリスクは？
-• コストや工数の見積もりは？"""
+• How can this information be utilized in business?
+• Are there similar technologies or alternatives?
+• What are the implementation considerations and risks?
+• What are the cost and effort estimates?"""
     
     await cl.Message(content=questions_content).send()
 
 @cl.action_callback("action_implementation")
 async def on_action_implementation(action):
-    impl_content = """⚙️ **実装方法の詳細**
+    impl_content = """⚙️ **Implementation Method Details**
 
-段階的な実装アプローチを提案します：
+I propose a phased implementation approach:
 
-**Phase 1**: 基盤構築とセットアップ
-**Phase 2**: コア機能の実装
-**Phase 3**: UI/UX の調整と最適化
-**Phase 4**: テストと本番デプロイ
+**Phase 1**: Foundation building and setup
+**Phase 2**: Core functionality implementation
+**Phase 3**: UI/UX adjustment and optimization
+**Phase 4**: Testing and production deployment
 
-各フェーズの詳細について説明いたします。"""
+I will explain the details of each phase."""
     
     await cl.Message(content=impl_content).send()
 
 @cl.action_callback("action_frontend")
 async def on_action_frontend(action):
-    frontend_content = """🎨 **フロントエンド技術の詳細**
+    frontend_content = """🎨 **Frontend Technology Details**
 
-このデモで使用している主要なフロントエンド技術：
+Main frontend technologies used in this demo:
 
-• **React Components**: カスタムコンポーネントの設計パターン
-• **CSS Effects**: グラスモーフィズム、ネオモーフィズム効果
-• **Animations**: Canvas API、CSS Transform、Transition
-• **Responsive Design**: モバイルファースト、フレキシブルレイアウト"""
+• **React Components**: Custom component design patterns
+• **CSS Effects**: Glassmorphism and neumorphism effects
+• **Animations**: Canvas API, CSS Transform, Transition
+• **Responsive Design**: Mobile-first, flexible layouts"""
     
     await cl.Message(content=frontend_content).send()
 
 if __name__ == "__main__":
-    print("Chainlit Customized Demo - Run with: chainlit run main.py")
+    print("Chainlit Customization Demo - Run with: chainlit run main.py")

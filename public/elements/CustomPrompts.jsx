@@ -11,14 +11,14 @@ export default function CustomPrompts({ data = [] }) {
     } else {
       // フォールバック: コンソールに出力
       console.log('Sending message:', prompt.prompt);
-      // 直接入力フィールドに設定を試行
-      const inputField = document.querySelector('textarea[placeholder*="メッセージ"], input[type="text"]');
+      // Try setting directly to input field
+      const inputField = document.querySelector('textarea[placeholder*="message"], input[type="text"]');
       if (inputField) {
         inputField.value = prompt.prompt;
         inputField.dispatchEvent(new Event('input', { bubbles: true }));
         
-        // 送信ボタンをクリック
-        const sendButton = document.querySelector('button[type="submit"], button[aria-label*="送信"]');
+        // Click send button
+        const sendButton = document.querySelector('button[type="submit"], button[aria-label*="send"]');
         if (sendButton) {
           sendButton.click();
         }
@@ -104,9 +104,9 @@ export default function CustomPrompts({ data = [] }) {
       
       {prompts.length === 0 ? (
         <div className="no-prompts">
-          <div className="no-prompts-title">カスタムプロンプト</div>
-          <p>カスタムプロンプトが登録されていません。</p>
-          <p>プロンプトを追加すると、ここから選択して送信できます。</p>
+          <div className="no-prompts-title">Custom Prompts</div>
+          <p>No custom prompts are registered.</p>
+          <p>Add prompts to select and send them from here.</p>
         </div>
       ) : (
         prompts.map((prompt, index) => (

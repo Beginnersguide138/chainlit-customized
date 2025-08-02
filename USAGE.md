@@ -1,74 +1,74 @@
-# 使用方法ガイド
+# Usage Guide
 
-## 🚀 クイックスタート
+## 🚀 Quick Start
 
-### 1. アプリケーションの起動
+### 1. Application Launch
 
 ```bash
-# 依存関係のインストール（初回のみ）
+# Install dependencies (first time only)
 uv sync
 
-# アプリケーション起動
+# Launch application
 uv run chainlit run main.py
 ```
 
-ブラウザで http://localhost:8000 にアクセス
+Access http://localhost:8000 in your browser
 
-### 2. チャットプロファイルの選択
+### 2. Chat Profile Selection
 
-左側のパネルから以下のプロファイルを選択できます：
+You can select from the following profiles in the left panel:
 
-- **AI Assistant**: 汎用的なチャット
-- **Web Search**: 検索機能デモ
-- **Document Helper**: ファイル処理デモ
+- **AI Assistant**: General-purpose chat
+- **Web Search**: Search functionality demo
+- **Document Helper**: File processing demo
 
-## 🎨 機能の使い方
+## 🎨 How to Use Features
 
-### カスタムプロンプトメニュー
+### Custom Prompt Menu
 
-任意のプロファイルで `🎨` を送信すると、カスタムプロンプト選択UIが表示されます。
+Send `🎨` in any profile to display the custom prompt selection UI.
 
-例：
+Example:
 ```
 🎨
 ```
 
-### アクションボタン
+### Action Buttons
 
-AI Assistantプロファイルでメッセージを送信すると、以下のアクションボタンが表示されます：
+When you send a message in the AI Assistant profile, the following action buttons will appear:
 
-- **📝 要約を作成**: 要約機能のデモ
-- **🔍 詳細を説明**: 詳細説明機能のデモ  
-- **🎨 カスタムプロンプト**: プロンプト選択UIを表示
+- **📝 Create Summary**: Summary function demo
+- **🔍 Explain Details**: Detailed explanation function demo  
+- **🎨 Custom Prompts**: Display prompt selection UI
 
-### ファイルアップロード
+### File Upload
 
-Document Helperプロファイルでファイルをアップロードすると、ファイル情報が表示されます。
+When you upload files in the Document Helper profile, file information will be displayed.
 
-対応ファイル形式：
-- テキストファイル (.txt, .md)
-- 画像ファイル (.jpg, .png, .gif)
-- PDFファイル (.pdf)
-- その他のファイル形式
+Supported file formats:
+- Text files (.txt, .md)
+- Image files (.jpg, .png, .gif)
+- PDF files (.pdf)
+- Other file formats
 
-## 🛠️ カスタマイズ方法
+## 🛠️ Customization Methods
 
-### 新しいチャットプロファイルの追加
+### Adding New Chat Profiles
 
-`main.py` の `chat_profiles` リストに追加：
+Add to the `chat_profiles` list in `main.py`:
 
 ```python
 chat_profiles = [
-    # 既存のプロファイル...
+    # Existing profiles...
     cl.ChatProfile(
         name="Your New Profile",
-        markdown_description="新しいプロファイルの説明",
+        markdown_description="Description of new profile",
         icon="https://example.com/icon.png",
     )
 ]
 ```
 
-対応するハンドラー関数も追加：
+Also add corresponding handler function:
 
 ```python
 @cl.on_message
@@ -77,37 +77,37 @@ async def main(message: cl.Message):
     
     if chat_profile == "Your New Profile":
         await handle_your_new_profile(message)
-    # その他の条件...
+    # Other conditions...
 
 async def handle_your_new_profile(message: cl.Message):
-    # 新しいプロファイルの処理ロジック
-    await cl.Message(content=f"新しいプロファイル: {message.content}").send()
+    # Processing logic for new profile
+    await cl.Message(content=f"New profile: {message.content}").send()
 ```
 
-### カスタムプロンプトの追加
+### Adding Custom Prompts
 
-`show_custom_prompts()` 関数の `prompts_data` を編集：
+Edit `prompts_data` in the `show_custom_prompts()` function:
 
 ```python
 prompts_data = [
     {
-        "title": "新しいプロンプト",
-        "prompt": "あなたのカスタムプロンプトテキスト",
+        "title": "New Prompt",
+        "prompt": "Your custom prompt text",
         "icon": "🆕"
     },
-    # 既存のプロンプト...
+    # Existing prompts...
 ]
 ```
 
-### UI要素のカスタマイズ
+### Customizing UI Elements
 
-1. **CSS**: `public/styles.css` でスタイルを編集
-2. **JavaScript**: `public/script.js` で動作を追加
-3. **React要素**: `public/elements/` で新しいコンポーネントを作成
+1. **CSS**: Edit styles in `public/styles.css`
+2. **JavaScript**: Add functionality in `public/script.js`
+3. **React Elements**: Create new components in `public/elements/`
 
-### 新しいReactコンポーネントの作成
+### Creating New React Components
 
-1. `public/elements/YourComponent.jsx` を作成：
+1. Create `public/elements/YourComponent.jsx`:
 
 ```jsx
 import React from 'react';
@@ -122,18 +122,18 @@ export default function YourComponent({ data }) {
 }
 ```
 
-2. Pythonコードで使用：
+2. Use in Python code:
 
 ```python
 await cl.Message(
-    content="カスタムコンポーネントの例",
+    content="Custom component example",
     elements=[
         cl.CustomElement(
             name="YourComponent",
             props={
                 "data": {
-                    "title": "タイトル",
-                    "content": "コンテンツ"
+                    "title": "Title",
+                    "content": "Content"
                 }
             }
         )
@@ -141,43 +141,43 @@ await cl.Message(
 ).send()
 ```
 
-## 🔧 トラブルシューティング
+## 🔧 Troubleshooting
 
-### よくある問題
+### Common Issues
 
-1. **モジュールが見つからない**
+1. **Module not found**
    ```bash
    uv sync
    ```
 
-2. **ポートが使用中**
+2. **Port in use**
    ```bash
    uv run chainlit run main.py --port 8001
    ```
 
-3. **カスタム要素が表示されない**
-   - `public/elements/` のファイル名とコンポーネント名を確認
-   - JSXの構文エラーをチェック
+3. **Custom elements not displaying**
+   - Check file names and component names in `public/elements/`
+   - Check for JSX syntax errors
 
-### デバッグ方法
+### Debugging Methods
 
-1. **コンソールログの確認**
-   - ブラウザの開発者ツール（F12）でコンソールをチェック
+1. **Check console logs**
+   - Check console in browser developer tools (F12)
 
-2. **サーバーログの確認**
-   - ターミナルでChainlitサーバーのログを確認
+2. **Check server logs**
+   - Check Chainlit server logs in terminal
 
-3. **Python構文チェック**
+3. **Python syntax check**
    ```bash
    uv run python -c "import main"
    ```
 
-## 📚 さらなる学習
+## 📚 Further Learning
 
-- [Chainlit公式ドキュメント](https://docs.chainlit.io/)
-- [React公式ドキュメント](https://react.dev/)
-- `sample/dione/` ディレクトリの実装例を参照
+- [Chainlit Official Documentation](https://docs.chainlit.io/)
+- [React Official Documentation](https://react.dev/)
+- Refer to implementation examples in `sample/dione/` directory
 
 ---
 
-*このガイドは基本的な使用方法を説明しています。より高度なカスタマイズについては、サンプルコードや公式ドキュメントを参考にしてください。*
+*This guide explains basic usage methods. For more advanced customization, please refer to sample code and official documentation.*

@@ -1,36 +1,36 @@
-# 🚀 Chainlit カスタマイズデモ
+# 🚀 Chainlit Customization Demo
 
-ようこそ！このアプリは、Chainlitの様々なカスタマイズ機能を紹介するデモアプリケーションです。
+Welcome! This app is a demo application showcasing various customization features of Chainlit.
 
-## 🎯 主な機能
+## 🎯 Main Features
 
-### チャットプロファイル
-- **AI Assistant**: 汎用的なAIアシスタント
-- **Web Search**: Web検索機能付きアシスタント  
-- **Document Helper**: ドキュメント分析専用アシスタント
+### Chat Profiles
+- **AI Assistant**: General-purpose AI assistant
+- **Web Search**: Assistant with web search functionality  
+- **Document Helper**: Document analysis specialist assistant
 
-### カスタムUI要素
-- カスタムプロンプト選択UI
-- アクションボタン
-- ファイルアップロード対応
+### Custom UI Elements
+- Custom prompt selection UI
+- Action buttons
+- File upload support
 
-### インタラクション機能
-- リアルタイムチャット
-- ファイル処理
-- カスタム要素表示
+### Interaction Features
+- Real-time chat
+- File processing
+- Custom element display
 
-## 🎨 使い方
+## 🎨 How to Use
 
-1. 左側のチャットプロファイルを選択
-2. メッセージを入力してチャット開始
-3. `🎨` を送信するとカスタムプロンプトメニューが表示
+1. Select a chat profile from the left side
+2. Enter a message to start chatting
+3. Send `🎨` to display the custom prompt menu
 
-## 🛠️ 技術スタック
+## 🛠️ Tech Stack
 
-- **Chainlit**: チャットUI フレームワーク
-- **Python**: バックエンド実装
-- **React**: カスタムUIコンポーネント（予定）
+- **Chainlit**: Chat UI framework
+- **Python**: Backend implementation
+- **React**: Custom UI components
 
 ---
 
-*このデモは、商用プロジェクトのChainlitカスタマイズ手法を一般化したものです。*
+*This demo generalizes Chainlit customization techniques from commercial projects.*

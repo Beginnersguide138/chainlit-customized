@@ -1,7 +1,7 @@
 [project]
 name = "chainlit-customized"
 version = "0.1.0"
-description = "Add your description here"
+description = "Chainlit customization demo showcasing advanced UI/UX techniques"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [

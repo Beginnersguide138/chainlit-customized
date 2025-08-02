@@ -6,7 +6,7 @@ export default function CustomPromptsList({ data = [], onPromptSelect, editable 
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
-  // ローカルストレージからプロンプトを読み込み
+  // Load prompts from local storage
   useEffect(() => {
     if (data.length === 0) {
       const savedPrompts = localStorage.getItem('chainlit-custom-prompts');
@@ -22,13 +22,13 @@ export default function CustomPromptsList({ data = [], onPromptSelect, editable 
     }
   }, [data]);
 
-  // プロンプトをローカルストレージに保存
+  // Save prompts to local storage
   const savePrompts = (updatedPrompts) => {
     setPrompts(updatedPrompts);
     localStorage.setItem('chainlit-custom-prompts', JSON.stringify(updatedPrompts));
   };
 
-  // プロンプト追加
+  // Add prompt
   const addPrompt = () => {
     if (newPrompt.title && newPrompt.prompt) {
       const prompt = {
@@ -43,13 +43,13 @@ export default function CustomPromptsList({ data = [], onPromptSelect, editable 
     }
   };
 
-  // プロンプト削除
+  // Delete prompt
   const deletePrompt = (id) => {
     const updatedPrompts = prompts.filter(p => p.id !== id);
     savePrompts(updatedPrompts);
   };
 
-  // プロンプト編集
+  // Edit prompt
   const editPrompt = (id, updatedData) => {
     const updatedPrompts = prompts.map(p => 
       p.id === id ? { ...p, ...updatedData } : p
@@ -58,16 +58,16 @@ export default function CustomPromptsList({ data = [], onPromptSelect, editable 
     setEditingId(null);
   };
 
-  // プロンプト選択時のハンドル
+  // Handle prompt selection
   const handlePromptSelect = (prompt) => {
     if (onPromptSelect && typeof onPromptSelect === 'function') {
       onPromptSelect(prompt);
     } else {
-      // デフォルトの動作：プロンプトをクリップボードにコピー
+      // Default behavior: copy prompt to clipboard
       navigator.clipboard.writeText(prompt.prompt).then(() => {
-        // 簡単なトースト通知
+        // Simple toast notification
         const toast = document.createElement('div');
-        toast.textContent = 'プロンプトをクリップボードにコピーしました';
+        toast.textContent = 'Prompt copied to clipboard';
         toast.className = 'toast success';
         document.body.appendChild(toast);
         setTimeout(() => document.body.removeChild(toast), 3000);
@@ -385,13 +385,13 @@ export default function CustomPromptsList({ data = [], onPromptSelect, editable 
       `}</style>
 
       <div className="prompts-header">
-        <h2 className="prompts-title">カスタムプロンプト</h2>
+        <h2 className="prompts-title">Custom Prompts</h2>
         {editable && (
           <button 
             className="add-button"
             onClick={() => setShowAddForm(!showAddForm)}
           >
-            ➕ プロンプト追加
+            ➕ Add Prompt
           </button>
         )}
       </div>
@@ -400,17 +400,17 @@ export default function CustomPromptsList({ data = [], onPromptSelect, editable 
         <div className="add-form">
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">タイトル</label>
+              <label className="form-label">Title</label>
               <input
                 className="form-input"
                 type="text"
                 value={newPrompt.title}
                 onChange={(e) => setNewPrompt({...newPrompt, title: e.target.value})}
-                placeholder="プロンプトのタイトルを入力"
+                placeholder="Enter prompt title"
               />
             </div>
             <div className="form-group" style={{maxWidth: '120px'}}>
-              <label className="form-label">アイコン</label>
+              <label className="form-label">Icon</label>
               <select
                 className="form-input"
                 value={newPrompt.icon}
@@ -422,7 +422,7 @@ export default function CustomPromptsList({ data = [], onPromptSelect, editable 
               </select>
             </div>
             <div className="form-group" style={{maxWidth: '150px'}}>
-              <label className="form-label">カテゴリ</label>
+              <label className="form-label">Category</label>
               <select
                 className="form-input"
                 value={newPrompt.category}
@@ -435,20 +435,20 @@ export default function CustomPromptsList({ data = [], onPromptSelect, editable 
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">プロンプト内容</label>
+            <label className="form-label">Prompt Content</label>
             <textarea
               className="form-input form-textarea"
               value={newPrompt.prompt}
               onChange={(e) => setNewPrompt({...newPrompt, prompt: e.target.value})}
-              placeholder="プロンプトの内容を入力してください..."
+              placeholder="Enter prompt content..."
             />
           </div>
           <div className="form-actions">
             <button className="btn btn-secondary" onClick={() => setShowAddForm(false)}>
-              キャンセル
+              Cancel
             </button>
             <button className="btn btn-primary" onClick={addPrompt}>
-              追加
+              Add
             </button>
           </div>
         </div>
@@ -457,10 +457,10 @@ export default function CustomPromptsList({ data = [], onPromptSelect, editable 
       {prompts.length === 0 ? (
         <div className="empty-state">
           <div className="empty-icon">💭</div>
-          <div className="empty-title">カスタムプロンプトがありません</div>
+          <div className="empty-title">No Custom Prompts</div>
           <div className="empty-description">
-            プロンプトを追加して、よく使用するメッセージをテンプレート化しましょう。
-            {editable && "上の「プロンプト追加」ボタンから新しいプロンプトを作成できます。"}
+            Add prompts to template frequently used messages.
+            {editable && " You can create new prompts using the 'Add Prompt' button above."}
           </div>
         </div>
       ) : (

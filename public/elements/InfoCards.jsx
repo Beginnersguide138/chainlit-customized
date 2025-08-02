@@ -2,12 +2,12 @@ import React from 'react';
 
 export default function InfoCards({ data = {} }) {
   const {
-    title = "情報カード",
-    description = "カスタム情報を表示するカードです",
+    title = "Info Card",
+    description = "Card displaying custom information",
     image_url = null,
     items = [],
     features = [],
-    category = "一般"
+    category = "General"
   } = data;
 
   return (
@@ -203,7 +203,7 @@ export default function InfoCards({ data = {} }) {
       <div className="info-card-content">
         {features.length > 0 && (
           <>
-            <div className="section-title">✨ 特徴</div>
+            <div className="section-title">✨ Features</div>
             <div className="features-grid">
               {features.map((feature, index) => (
                 <div key={index} className="feature-item">
@@ -217,7 +217,7 @@ export default function InfoCards({ data = {} }) {
 
         {items.length > 0 && (
           <>
-            <div className="section-title">📋 詳細情報</div>
+            <div className="section-title">📋 Detailed Information</div>
             <div className="items-list">
               {items.map((item, index) => (
                 <div key={index} className="item-entry">
