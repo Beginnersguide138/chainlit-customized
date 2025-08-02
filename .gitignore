@@ -1,4 +1,4 @@
-.files
-sample
-.venv
-__pycache__/*
+.files/
+sample/
+.venv/
+__pycache__/
