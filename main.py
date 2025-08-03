@@ -2,23 +2,22 @@ import chainlit as cl
 from typing import Dict, Any, List
 import asyncio
 import json
-from config_editor import show_config_editor
 
-# Simple landing page HTML
+# Landing page HTML with modern design
 landing_page_html = """
-<div class"wrapper">
+<div class="wrapper">
 <div class="compact-hero">
     <div class="hero-content">
         <h1 class="hero-title">
-            🚀 Chainlit Customization Demo
+            🚀 Chainlit UI Customization Demo
         </h1>
         <p class="hero-subtitle">
-            Demo app showcasing commercial project customization techniques
+            Showcase of advanced UI/UX customization techniques for Chainlit applications
         </p>
         <div class="features-grid">
-            <span class="feature-item">🎨 Custom Prompts</span>
-            <span class="feature-item">📋 Tech Info Cards</span>
-            <span class="feature-item">🚀 Full Feature Demo</span>
+            <span class="feature-item">🎨 Custom Components</span>
+            <span class="feature-item">📋 Info Cards</span>
+            <span class="feature-item">⚡ Interactive Actions</span>
         </div>
     </div>
 </div>
@@ -97,56 +96,56 @@ landing_page_html = """
 # Chat profile configuration
 chat_profiles = [
     cl.ChatProfile(
-        name="AI Assistant",
+        name="UI Demo",
         markdown_description=landing_page_html,
         icon="https://img.icons8.com/?size=100&id=eoxMN35Z6JKg&format=png&color=000000",
         default=True,
         starters=[
             cl.Starter(
-                label="🎨 Custom Prompt Management",
+                label="🎨 Custom Components",
                 message="🎨",
             ),
             cl.Starter(
-                label="📋 Tech Info Cards",
+                label="📋 Info Cards",
                 message="📋",
             ),
             cl.Starter(
-                label="🚀 Full Feature Demo",
+                label="🚀 Feature Demo",
                 message="demo",
             ),
             cl.Starter(
-                label="⚙️ Settings Editor",
+                label="⚙️ UI Settings",
                 message="⚙️",
             )
         ]
     ),
     cl.ChatProfile(
-        name="Web Search",
-        markdown_description="Assistant with web search capabilities. Finds the latest information.\n\n*Note: This demo does not perform actual searches.*",
+        name="Interactive Chat",
+        markdown_description="Experience interactive features with action buttons and follow-up messages.\n\n*Demonstrates dynamic conversation flows and UI responses.*",
         icon="https://img.icons8.com/?size=100&id=BpLxiRbSRN80&format=png",
         starters=[
             cl.Starter(
-                label="Search Demo",
-                message="Please search for the latest AI technologies",
+                label="Interactive Demo",
+                message="Show me interactive features",
             ),
             cl.Starter(
-                label="News Search",
-                message="Tell me about today's tech-related news",
+                label="Action Buttons",
+                message="Demonstrate action buttons",
             )
         ]
     ),
     cl.ChatProfile(
-        name="Document Helper",
-        markdown_description="Assistant specialized in document analysis and summarization.\n\nUpload files to try the analysis features.",
+        name="File Processing",
+        markdown_description="File upload and processing demonstration with sidebar display.\n\nUpload files to see dynamic content rendering in the sidebar.",
         icon="https://img.icons8.com/?size=100&id=85784&format=png",
         starters=[
             cl.Starter(
-                label="File Analysis Explanation",
-                message="Please explain the file analysis features",
+                label="File Features",
+                message="What file processing features are available?",
             ),
             cl.Starter(
-                label="Supported File Formats",
-                message="What file formats are supported?",
+                label="Upload Demo",
+                message="How does file upload work?",
             )
         ]
     )
@@ -158,66 +157,59 @@ async def chat_profile():
 
 @cl.on_chat_start
 async def start():
-    # Initialize settings editor
-    from config_editor import create_config_settings
-    await create_config_settings()
+    # Initialize settings from config_editor if available
+    try:
+        from config_editor import create_config_settings
+        await create_config_settings()
+    except ImportError:
+        pass  # config_editor is optional
     
     # Command configuration
     commands = [
-        {"id": "search", "icon": "search", "description": "Web search functionality"},
-        {"id": "analysis", "icon": "chart-bar", "description": "Data analysis & insights"},
-        {"id": "custom", "icon": "palette", "description": "Show custom prompts"},
-        {"id": "info", "icon": "info", "description": "Show tech info cards"},
+        {"id": "components", "icon": "palette", "description": "Show custom components"},
+        {"id": "cards", "icon": "info", "description": "Display info cards"},
         {"id": "demo", "icon": "rocket", "description": "Full feature demo"},
-        {"id": "settings", "icon": "settings", "description": "Edit Chainlit settings"}
+        {"id": "settings", "icon": "settings", "description": "UI settings"},
     ]
     
     await cl.context.emitter.set_commands(commands)
     
-    # Initialize right sidebar
+    # Initialize empty sidebar
     await cl.ElementSidebar.set_elements([])
 
 @cl.on_message
 async def main(message: cl.Message):
     chat_profile = cl.user_session.get("chat_profile")
     
-    if chat_profile == "AI Assistant":
-        await handle_ai_assistant(message)
-    elif chat_profile == "Web Search":
-        await handle_web_search(message)
-    elif chat_profile == "Document Helper":
-        await handle_document_helper(message)
+    if chat_profile == "UI Demo":
+        await handle_ui_demo(message)
+    elif chat_profile == "Interactive Chat":
+        await handle_interactive_chat(message)
+    elif chat_profile == "File Processing":
+        await handle_file_processing(message)
     else:
-        await cl.Message(content="Please select a profile.").send()
+        await cl.Message(content="Please select a chat profile.").send()
 
-async def handle_ai_assistant(message: cl.Message):
+async def handle_ui_demo(message: cl.Message):
     # Process commands with highest priority
     if message.command:
         command = message.command
-        if command == "search":
-            response = f"🔍 **Web Search Command Executed**\n\nSearch Query: {message.content}\n\n(Actual search functionality is not implemented)"
-            await cl.Message(content=response).send()
+        if command == "components":
+            await show_custom_components()
             return
-        elif command == "analysis":
-            response = f"📊 **Data Analysis Command Executed**\n\nAnalysis Target: {message.content}\n\nRunning advanced analysis...\n\n(Actual analysis functionality is not implemented)"
-            await cl.Message(content=response).send()
-            return
-        elif command == "custom":
-            await show_custom_prompts()
-            return
-        elif command == "info":
+        elif command == "cards":
             await show_info_cards()
             return
         elif command == "demo":
             await show_feature_demo()
             return
         elif command == "settings":
-            await show_config_editor()
+            await show_ui_settings()
             return
     
     # Handle special content messages
     if message.content == "🎨":
-        await show_custom_prompts()
+        await show_custom_components()
         return
     elif message.content in ["📋", "info"]:
         await show_info_cards()
@@ -226,145 +218,119 @@ async def handle_ai_assistant(message: cl.Message):
         await show_feature_demo()
         return
     elif message.content == "⚙️":
-        await show_config_editor()
+        await show_ui_settings()
         return
     
-    # Basic response
-    response = f"AI Assistant responding:\\n\\nLet me think about {message.content}."
+    # Default response with action buttons
+    response = f"**UI Demo Assistant**\n\nProcessing: {message.content}\n\nExplore the available UI features using the action buttons below."
     
-    # Message with actions
+    # Main action buttons
     actions = [
-        cl.Action(name="action_summary", label="📝 Create Summary", payload="summary"),
-        cl.Action(name="action_detail", label="🔍 Explain Details", payload="detail"),
-        cl.Action(name="action_custom", label="🎨 Custom Prompts", payload="custom"),
-        cl.Action(name="action_info", label="📋 Tech Info", payload="info"),
-        cl.Action(name="action_demo", label="⭐ Full Demo", payload="demo"),
-        cl.Action(name="action_settings", label="⚙️ Settings", payload="settings"),
+        cl.Action(name="action_summary", label="📝 Create Summary", payload={"action": "summary"}),
+        cl.Action(name="action_detail", label="🔍 Show Details", payload={"action": "detail"}),
+        cl.Action(name="action_components", label="🎨 Custom Components", payload={"action": "components"}),
+        cl.Action(name="action_cards", label="📋 Info Cards", payload={"action": "cards"}),
+        cl.Action(name="action_demo", label="⭐ Full Demo", payload={"action": "demo"}),
+        cl.Action(name="action_settings", label="⚙️ UI Settings", payload={"action": "settings"}),
     ]
     
     await cl.Message(content=response, actions=actions).send()
 
-async def show_feature_demo():
-    """Display full feature demo"""
-    await cl.Message(
-        content="🚀 **Chainlit Customization Demo - All Features**\\n\\nExperience each feature with the following commands:"
-    ).send()
+async def handle_interactive_chat(message: cl.Message):
+    response = f"**Interactive Chat Mode**\n\nYour message: {message.content}\n\nThis mode demonstrates dynamic conversation flows with contextual action buttons."
     
-    # Feature description
-    features_text = """
-**📱 Basic Features:**
-- `🎨` - Custom prompt management (add, edit, delete)
-- `📋` - Tech info card display
-
-**🎯 Advanced Features:**
-- Glassmorphism effects
-- Neumorphism UI
-- Responsive design
-- Dark mode support
-- Local storage utilization
-
-**💡 Usage Tips:**
-- Upload files to try Document Helper
-- Experience different features in each profile
-- Quick access to features via action buttons
-"""
+    # Interactive actions
+    actions = [
+        cl.Action(name="action_analyze", label="� Deep Analysis", payload={"action": "analyze"}),
+        cl.Action(name="action_expand", label="📈 Expand Topic", payload={"action": "expand"}),
+        cl.Action(name="action_related", label="🔗 Related Topics", payload={"action": "related"}),
+    ]
     
-    await cl.Message(content=features_text).send()
-    
-    # 全機能の実際のデモ
-    await show_custom_prompts()
-    await asyncio.sleep(1)
-    await show_info_cards()
+    await cl.Message(content=response, actions=actions).send()
 
-async def handle_web_search(message: cl.Message):
-    response = f"Web Search mode active.\n\nSearch Query: {message.content}\n\n(Actual search functionality is not implemented)"
-    await cl.Message(content=response).send()
-
-async def handle_document_helper(message: cl.Message):
-    # File processing example
+async def handle_file_processing(message: cl.Message):
     files = message.elements or []
     
     if files:
-        # ファイルがアップロードされた場合、右側ペインに表示
+        # Process uploaded files
         sidebar_elements = []
         for file in files:
             if file.mime and file.mime.startswith('image/'):
-                # 画像ファイルの場合
                 sidebar_elements.append(cl.Image(name=file.name, path=file.path))
             elif file.mime == 'application/pdf':
-                # PDFファイルの場合
                 sidebar_elements.append(cl.Pdf(name=file.name, path=file.path))
             elif file.mime and (file.mime.startswith('text/') or 'json' in file.mime):
-                # テキストファイルの場合
-                with open(file.path, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                sidebar_elements.append(cl.Text(name=file.name, content=content))
+                try:
+                    with open(file.path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    sidebar_elements.append(cl.Text(name=file.name, content=content))
+                except:
+                    sidebar_elements.append(cl.File(name=file.name, path=file.path))
             else:
-                # その他のファイルの場合
                 sidebar_elements.append(cl.File(name=file.name, path=file.path))
         
-        # 右側ペインに表示
+        # Display files in sidebar
         await cl.ElementSidebar.set_elements(sidebar_elements)
-        await cl.ElementSidebar.set_title("アップロードファイル")
+        await cl.ElementSidebar.set_title("Uploaded Files")
         
         file_list = [f"- {file.name}" for file in files]
-        response = f"Analyzed uploaded files ({len(files)} files).\n\n" + "\n".join(file_list) + f"\n\nQuestion: {message.content}\n\nFiles are displayed in the side panel for your reference."
+        response = f"**File Processing Complete**\n\nProcessed {len(files)} file(s):\n" + "\n".join(file_list) + f"\n\nMessage: {message.content}\n\nFiles are displayed in the sidebar for reference."
         
-        await cl.Message(content=response).send()
     else:
-        response = f"Document Helper responding:\n\n{message.content}\n\nUpload files for more detailed analysis."
-        await cl.Message(content=response).send()
+        response = f"**File Processing Mode**\n\nMessage: {message.content}\n\nUpload files to see dynamic sidebar rendering and file processing capabilities."
+    
+    await cl.Message(content=response).send()
 
-async def show_custom_prompts():
-    # Custom prompt sample data
+async def show_custom_components():
+    """Display custom React components"""
+    # Sample custom prompts data
     prompts_data = [
         {
             "id": "1",
-            "title": "Create Summary",
-            "prompt": "Please summarize the following content concisely. Focus on 3 key points.",
+            "title": "Summarize Content",
+            "prompt": "Please provide a concise summary focusing on the main points and key insights.",
             "icon": "📝",
             "category": "Analysis"
         },
         {
             "id": "2", 
             "title": "Technical Explanation",
-            "prompt": "Please explain technical content in an easy-to-understand way. Avoid jargon and make it accessible to beginners.",
+            "prompt": "Explain this technical concept in simple terms with practical examples.",
             "icon": "🔧",
-            "category": "Development"
+            "category": "Technical"
         },
         {
             "id": "3",
-            "title": "Idea Generation",
-            "prompt": "Please propose 3 creative ideas. Include feasibility considerations in your explanation.",
+            "title": "Creative Ideas",
+            "prompt": "Generate 3 innovative ideas with feasibility analysis for each.",
             "icon": "💡",
             "category": "Creative"
         },
         {
             "id": "4",
             "title": "Problem Solving",
-            "prompt": "Please propose step-by-step solutions to this problem. Include priority considerations.",
+            "prompt": "Break down this problem into manageable steps with prioritized solutions.",
             "icon": "🔍",
             "category": "Analysis" 
         },
         {
             "id": "5",
             "title": "Code Review",
-            "prompt": "Please point out improvements for this code. Focus on performance and readability aspects.",
+            "prompt": "Review this code for improvements in performance, readability, and best practices.",
             "icon": "💻",
-            "category": "Development"
+            "category": "Technical"
         },
         {
             "id": "6",
-            "title": "Business Proposal",
-            "prompt": "Please format the proposal as a business plan. Clearly define objectives, methods, and expected outcomes.",
+            "title": "Business Strategy",
+            "prompt": "Develop a strategic business approach with clear objectives and measurable outcomes.",
             "icon": "📊",
             "category": "Business"
         }
     ]
     
-    # Display advanced custom prompt list
     await cl.Message(
-        content="🎨 **Custom Prompt Menu**\n\nSelect from below or create your own prompts in editable mode:",
+        content="🎨 **Custom React Components**\n\nInteractive prompt management system with editable functionality:",
         elements=[
             cl.CustomElement(
                 name="CustomPromptsList",
@@ -377,38 +343,38 @@ async def show_custom_prompts():
     ).send()
 
 async def show_info_cards():
-    # Info card sample data
+    """Display information cards with structured data"""
     info_data = {
-        "title": "Chainlit Customization Technology",
-        "description": "Generalized advanced UI/UX techniques learned from sample projects",
+        "title": "Chainlit UI Customization Techniques",
+        "description": "Advanced UI/UX patterns for modern web applications",
         "image_url": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop",
-        "category": "Tech Demo",
+        "category": "UI/UX Demo",
         "features": [
             {"icon": "🎨", "text": "Glassmorphism Effects"},
-            {"icon": "⚡", "text": "High-Performance Animations"},
+            {"icon": "⚡", "text": "Smooth Animations"},
             {"icon": "📱", "text": "Responsive Design"},
             {"icon": "🌙", "text": "Dark Mode Support"},
-            {"icon": "💾", "text": "Local Storage Utilization"},
+            {"icon": "💾", "text": "Local Storage"},
             {"icon": "🔧", "text": "Custom Components"}
         ],
         "items": [
             {
-                "title": "Custom Prompt Management",
-                "description": "Local storage-based prompt management system. Supports add, edit, and delete operations."
+                "title": "Custom Component System",
+                "description": "React-based custom elements with local storage integration for persistent user preferences."
             },
             {
-                "title": "Info Card Display",
-                "description": "Card components that beautifully display structured information. Supports background images and animation effects."
+                "title": "Dynamic Info Cards",
+                "description": "Flexible card components supporting various content types, images, and interactive features."
             },
             {
-                "title": "Advanced CSS Effects",
-                "description": "Utilizes latest CSS technologies including neumorphism, glassmorphism, and hover effects."
+                "title": "Modern CSS Techniques",
+                "description": "Implementation of cutting-edge CSS features including glassmorphism, gradients, and hover effects."
             }
         ]
     }
     
     await cl.Message(
-        content="📋 **Tech Info Cards**\n\nDetails of implemented technologies:",
+        content="📋 **Interactive Info Cards**\n\nShowcasing structured data presentation:",
         elements=[
             cl.CustomElement(
                 name="InfoCards",
@@ -417,177 +383,171 @@ async def show_info_cards():
         ]
     ).send()
 
+async def show_feature_demo():
+    """Comprehensive feature demonstration"""
+    await cl.Message(
+        content="🚀 **Complete Feature Demonstration**\n\nExploring all customization capabilities:"
+    ).send()
+    
+    # Show all features in sequence
+    await show_custom_components()
+    await asyncio.sleep(1)
+    await show_info_cards()
+    
+    # Feature summary
+    features_text = """
+**🎯 Key Features Demonstrated:**
 
+• **Custom React Components**: Interactive elements with real-time state management
+• **Dynamic Content Rendering**: Responsive cards and layouts
+• **Modern UI Patterns**: Glassmorphism, gradients, and smooth animations
+• **File Processing**: Automatic sidebar population based on file types
+• **Action Systems**: Contextual buttons with payload handling
+• **Theme Support**: Dark/light mode compatibility
+• **Responsive Design**: Mobile-first approach with flexible layouts
+
+**💡 Implementation Highlights:**
+- Local storage integration for user preferences
+- Custom CSS with CSS Grid and Flexbox
+- React JSX components in Chainlit
+- Dynamic sidebar content management
+- Interactive command system
+"""
+    
+    await cl.Message(content=features_text).send()
+
+async def show_ui_settings():
+    """Display UI configuration options"""
+    try:
+        from config_editor import show_config_editor
+        await show_config_editor()
+    except ImportError:
+        await cl.Message(
+            content="⚙️ **UI Settings**\n\nConfiguration options would appear here.\n\n*Note: Config editor is optional and not included in this simplified demo.*"
+        ).send()
+
+# Action callback handlers
 @cl.action_callback("action_summary")
 async def on_action_summary(action):
-    """Summary creation action - send additional messages and related questions"""
-    summary_content = """📝 **Starting Summary Creation**
+    content = """📝 **Summary Generation**
 
-I will concisely summarize the following content, organizing it into 3 key points:
+Creating a comprehensive summary with structured analysis:
 
-**Summary Perspectives:**
-• Main points and themes
-• Important details and background information  
-• Conclusions and recommendations
+**Key Points Extraction:**
+• Main themes and concepts
+• Supporting details and context  
+• Actionable insights and recommendations
 
-Once the summary is complete, feel free to ask for more detailed analysis or related questions."""
+The summary will be organized for maximum clarity and usefulness."""
 
-    # Additional actions with message
     follow_up_actions = [
-        cl.Action(name="action_analysis_deep", label="🔬 Deep Analysis", payload="deep_analysis"),
-        cl.Action(name="action_questions", label="❓ Related Questions", payload="questions"),
-        cl.Action(name="action_export_summary", label="📄 Export Summary", payload="export_summary")
+        cl.Action(name="action_deep_analysis", label="🔬 Deep Analysis", payload={"action": "deep_analysis"}),
+        cl.Action(name="action_questions", label="❓ Related Questions", payload={"action": "questions"}),
+        cl.Action(name="action_export", label="📄 Export Summary", payload={"action": "export"})
     ]
     
-    await cl.Message(content=summary_content, actions=follow_up_actions).send()
+    await cl.Message(content=content, actions=follow_up_actions).send()
 
 @cl.action_callback("action_detail") 
 async def on_action_detail(action):
-    """Detailed explanation action - provide additional messages and professional perspectives"""
-    detail_content = """🔍 **Starting Detailed Explanation**
+    content = """🔍 **Detailed Analysis**
 
-I will explain in detail from the following perspectives:
+Providing comprehensive explanation from multiple perspectives:
 
-**Technical Perspective:**
-• Implementation methods and technical specifications
-• Advantages and disadvantages
-• Use cases and application scope
+**Technical Analysis:**
+• Implementation details and specifications
+• Advantages and potential limitations
+• Use cases and application scenarios
 
-**Business Perspective:**  
-• Practicality and effectiveness
-• Cost and ROI
-• Implementation considerations
+**Practical Considerations:**  
+• Real-world implementation factors
+• Cost-benefit analysis
+• Best practices and recommendations"""
 
-After the detailed explanation, I can also answer questions about specific implementation methods or additional technical information."""
-
-    # Additional actions with message
     follow_up_actions = [
-        cl.Action(name="action_implementation", label="⚙️ Implementation", payload="implementation"),
-        cl.Action(name="action_examples", label="💡 Examples", payload="examples"),
-        cl.Action(name="action_best_practices", label="🎯 Best Practices", payload="best_practices")
+        cl.Action(name="action_implementation", label="⚙️ Implementation Guide", payload={"action": "implementation"}),
+        cl.Action(name="action_examples", label="💡 Examples", payload={"action": "examples"}),
+        cl.Action(name="action_best_practices", label="🎯 Best Practices", payload={"action": "best_practices"})
     ]
     
-    await cl.Message(content=detail_content, actions=follow_up_actions).send()
+    await cl.Message(content=content, actions=follow_up_actions).send()
 
-@cl.action_callback("action_custom")
-async def on_action_custom(action):
-    """Custom prompt display - also suggest related features"""
-    await show_custom_prompts()
+@cl.action_callback("action_components")
+async def on_action_components(action):
+    await show_custom_components()
     
-    # Additional guidance message
-    guidance_content = """💡 **Custom Prompt Usage Tips**
+    guidance_content = """💡 **Custom Component Usage**
 
-• Select prompts for immediate application
-• Create and edit your own prompts
-• Efficient management organized by categories
+• **Interactive Selection**: Click prompts for immediate application
+• **Edit Mode**: Modify existing prompts or create new ones
+• **Category Organization**: Efficient management by topic area
+• **Local Storage**: Persistent customizations across sessions"""
 
-Feel free to ask about more effective usage methods."""
+    await cl.Message(content=guidance_content).send()
 
-    guidance_actions = [
-        cl.Action(name="action_prompt_tips", label="📚 Usage Tips", payload="prompt_tips"),
-        cl.Action(name="action_create_prompt", label="✏️ Create New", payload="create_prompt")
-    ]
-    
-    await cl.Message(content=guidance_content, actions=guidance_actions).send()
-
-@cl.action_callback("action_info")
-async def on_action_info(action):
-    """Tech info display - also guide about related technologies"""
+@cl.action_callback("action_cards")
+async def on_action_cards(action):
     await show_info_cards()
     
-    # Technical follow-up
-    tech_content = """🔧 **About Technical Information Details**
+    tech_content = """🔧 **Info Cards Technology**
 
-Which areas would you like to know more about regarding the displayed technical information?
+Built with modern web technologies:
 
-• **Frontend Technologies**: React, CSS effects, animations
-• **Backend Technologies**: Chainlit, Python, API design  
-• **UI/UX Design**: Responsive, accessibility
-• **Performance**: Optimization, loading, memory management"""
+• **React Components**: Dynamic rendering and state management
+• **CSS Grid/Flexbox**: Responsive layout systems
+• **Glassmorphism**: Modern visual effects
+• **Image Integration**: Dynamic content loading"""
 
-    tech_actions = [
-        cl.Action(name="action_frontend", label="🎨 Frontend", payload="frontend"),
-        cl.Action(name="action_backend", label="⚙️ Backend", payload="backend"),
-        cl.Action(name="action_performance", label="⚡ Performance", payload="performance")
-    ]
-    
-    await cl.Message(content=tech_content, actions=tech_actions).send()
+    await cl.Message(content=tech_content).send()
 
 @cl.action_callback("action_demo") 
 async def on_action_demo(action):
-    """Full feature demo - also provide customization tips"""
     await show_feature_demo()
-    
-    # Customization guidance
-    customization_content = """🛠️ **Customization Tips**
-
-The technologies showcased in this demo can be customized for various purposes:
-
-• **Enterprise Dashboards**: Apply brand colors and logos
-• **Educational Platforms**: Visualize learning progress
-• **Customer Support Systems**: FAQ integration and ticket management
-• **Data Analysis Tools**: Chart display and report generation
-
-I can also support specific customization methods."""
-
-    customization_actions = [
-        cl.Action(name="action_branding", label="🎨 Branding", payload="branding"),
-        cl.Action(name="action_integration", label="🔗 System Integration", payload="integration"),
-        cl.Action(name="action_deployment", label="🚀 Deployment", payload="deployment")
-    ]
-    
-    await cl.Message(content=customization_content, actions=customization_actions).send()
-
-# Additional action callback functions
-@cl.action_callback("action_analysis_deep")
-async def on_action_analysis_deep(action):
-    await cl.Message(content="🔬 **Running Deep Analysis**\n\nPerforming data deep analysis, trend identification, and correlation detection...").send()
-
-@cl.action_callback("action_questions")
-async def on_action_questions(action):
-    questions_content = """❓ **Related Question Suggestions**
-
-You can ask additional questions from the following perspectives:
-
-• How can this information be utilized in business?
-• Are there similar technologies or alternatives?
-• What are the implementation considerations and risks?
-• What are the cost and effort estimates?"""
-    
-    await cl.Message(content=questions_content).send()
-
-@cl.action_callback("action_implementation")
-async def on_action_implementation(action):
-    impl_content = """⚙️ **Implementation Method Details**
-
-I propose a phased implementation approach:
-
-**Phase 1**: Foundation building and setup
-**Phase 2**: Core functionality implementation
-**Phase 3**: UI/UX adjustment and optimization
-**Phase 4**: Testing and production deployment
-
-I will explain the details of each phase."""
-    
-    await cl.Message(content=impl_content).send()
-
-@cl.action_callback("action_frontend")
-async def on_action_frontend(action):
-    frontend_content = """🎨 **Frontend Technology Details**
-
-Main frontend technologies used in this demo:
-
-• **React Components**: Custom component design patterns
-• **CSS Effects**: Glassmorphism and neumorphism effects
-• **Animations**: Canvas API, CSS Transform, Transition
-• **Responsive Design**: Mobile-first, flexible layouts"""
-    
-    await cl.Message(content=frontend_content).send()
 
 @cl.action_callback("action_settings")
 async def on_action_settings(action):
-    """Display settings editor"""
-    await show_config_editor()
+    await show_ui_settings()
+
+# Additional action handlers for follow-up interactions
+@cl.action_callback("action_analyze")
+async def on_action_analyze(action):
+    await cl.Message(content="🔬 **Deep Analysis Mode**\n\nPerforming comprehensive analysis with data correlation and trend identification...").send()
+
+@cl.action_callback("action_expand")
+async def on_action_expand(action):
+    await cl.Message(content="📈 **Topic Expansion**\n\nExploring related concepts and broader implications...").send()
+
+@cl.action_callback("action_related")
+async def on_action_related(action):
+    content = """🔗 **Related Topics**
+
+Explore these connected concepts:
+
+• **UI/UX Design Patterns**: Modern interface design principles
+• **React Component Architecture**: Building scalable component systems
+• **CSS Advanced Techniques**: Contemporary styling approaches
+• **Interactive Web Applications**: User engagement strategies"""
+    
+    await cl.Message(content=content).send()
+
+@cl.action_callback("action_implementation")
+async def on_action_implementation(action):
+    content = """⚙️ **Implementation Guide**
+
+**Phase 1**: Foundation Setup
+- Project initialization and dependencies
+- Basic structure and configuration
+
+**Phase 2**: Core Development  
+- Component implementation
+- Styling and responsive design
+
+**Phase 3**: Enhancement
+- Interactive features and animations
+- Testing and optimization"""
+    
+    await cl.Message(content=content).send()
 
 if __name__ == "__main__":
-    print("Chainlit Customization Demo - Run with: chainlit run main.py")
+    print("Chainlit UI Customization Demo")
+    print("Run with: chainlit run main.py")

@@ -1,32 +1,33 @@
-# Chainlit Customization Demo
+# 🚀 Chainlit UI Customization Demo
 
-A demo application showcasing various Chainlit customization features and techniques.
+A comprehensive demo application showcasing advanced UI/UX customization techniques and interactive features for modern Chainlit applications.
 
-## 🚀 Features
+## ✨ Key Features
 
 ### Chat Profiles
-- **AI Assistant**: General-purpose AI assistant
-- **Web Search**: Assistant with web search functionality
-- **Document Helper**: Document analysis specialist
+- **UI Demo**: Interactive showcase of custom components and modern UI patterns
+- **Interactive Chat**: Dynamic conversation flows with contextual action buttons  
+- **File Processing**: File upload handling with automatic sidebar content rendering
 
 ### Custom UI Elements
-- Custom prompt selection interface
-- Interactive action buttons
-- File upload support
-- Responsive design
+- **React Components**: Interactive prompt management with local storage integration
+- **Info Cards**: Structured data presentation with glassmorphism effects
+- **Action Systems**: Dynamic buttons with follow-up message capabilities
+- **Responsive Design**: Mobile-first approach with flexible layouts
 
 ### Advanced Features
-- Dynamic chat profile switching
-- Custom React component integration
-- CSS/JavaScript UI customization
-- File processing with drag & drop
-- **Right-side panel file display** - Uploaded files are automatically displayed in the side panel for reference
+- **Theme Support**: Dark/light mode compatibility
+- **File Upload**: Automatic processing and sidebar display
+- **Custom CSS**: Modern visual effects and animations
+- **Command System**: Interactive slash commands
+- **Local Storage**: Persistent user preferences
 
 ## 🛠️ Tech Stack
 
 - **Chainlit 2.6.4+**: Chat UI framework
 - **Python 3.13+**: Backend implementation
 - **React/JSX**: Custom UI components
+- **Modern CSS**: Glassmorphism, gradients, animations
 - **uv**: Package management
 
 ## 📦 Installation
@@ -51,6 +52,8 @@ uv run chainlit run main.py
 
 ## 🎯 Usage
 
+### Quick Start
+
 1. **Launch Application**
    ```bash
    uv run chainlit run main.py
@@ -58,181 +61,308 @@ uv run chainlit run main.py
 
 2. **Access in Browser**
    - Default: http://localhost:8000
-   - Select a chat profile from the sidebar
+   - Select a chat profile to begin
 
-3. **Try Features**
-   - **Basic Chat**: Type any message to interact with the AI Assistant
-   - **Custom Prompts**: Send `🎨` to display the custom prompt selection menu
-   - **Tech Info**: Send `📋` or "info" to show technical information cards
-   - **Full Demo**: Send "demo" to see all available features
-   - **File Upload**: In Document Helper profile, drag & drop or upload files for analysis
-   - **Right-side Panel**: Uploaded files automatically appear in the side panel for easy reference
-   - **Action Buttons**: Click on action buttons that appear after sending messages
+3. **Explore Features**
+   - Use starter buttons for quick access
+   - Try slash commands: `/components`, `/cards`, `/demo`, `/settings`
+   - Upload files in File Processing mode
+   - Click action buttons for interactive experiences
 
-## 🎨 Customization Elements
+### Feature Guide
 
-### 1. Custom Prompts (`CustomPrompts.jsx`)
+#### UI Demo Profile
+- **Custom Components**: Send `🎨` to see interactive prompt management
+- **Info Cards**: Send `📋` to display structured data with modern styling
+- **Full Demo**: Send `demo` to showcase all customization features
+- **UI Settings**: Send `⚙️` to access configuration options
+
+#### Interactive Chat Profile
+- **Dynamic Actions**: Experience contextual action buttons
+- **Follow-up Messages**: See how conversations can be extended with interactive elements
+
+#### File Processing Profile
+- **File Upload**: Drag & drop or upload files for automatic processing
+- **Sidebar Display**: Uploaded files appear in the sidebar with appropriate viewers
+- **Multiple Formats**: Support for images, PDFs, text files, and more
+
+## 🎨 Implementation Highlights
+
+### Custom React Components
+
 ```jsx
-// Prompt selection UI
-<CustomElement name="CustomPrompts" props={{data: prompts}} />
+// Interactive prompt management
+<CustomElement 
+  name="CustomPromptsList" 
+  props={{
+    data: prompts_data,
+    editable: true
+  }} 
+/>
+
+// Structured info cards
+<CustomElement 
+  name="InfoCards" 
+  props={{data: info_data}} 
+/>
 ```
 
-### 2. Style Customization (`styles.css`)
-- Theme management with CSS variables
-- Responsive design
-- Animation effects
+### Modern CSS Techniques
 
-### 3. JavaScript Extensions (`script.js`)
-- File drop functionality
-- Toast notifications
-- Interactive elements
+```css
+/* Glassmorphism effects */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+}
+
+/* CSS Grid layouts */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Theme support */
+[data-theme="dark"] {
+  --bg-color: #1f2937;
+  --text-color: #f9fafb;
+}
+```
+
+### Dynamic File Processing
+
+```python
+# Automatic sidebar population
+async def handle_file_processing(message: cl.Message):
+    files = message.elements or []
+    sidebar_elements = []
+    
+    for file in files:
+        if file.mime and file.mime.startswith('image/'):
+            sidebar_elements.append(cl.Image(name=file.name, path=file.path))
+        elif file.mime == 'application/pdf':
+            sidebar_elements.append(cl.Pdf(name=file.name, path=file.path))
+        # ... additional file type handling
+    
+    await cl.ElementSidebar.set_elements(sidebar_elements)
+```
+
+### Interactive Action Systems
+
+```python
+# Dynamic action buttons with follow-up capabilities
+actions = [
+    cl.Action(name="action_summary", label="📝 Create Summary", payload={"action": "summary"}),
+    cl.Action(name="action_detail", label="🔍 Show Details", payload={"action": "detail"}),
+    cl.Action(name="action_demo", label="⭐ Full Demo", payload={"action": "demo"}),
+]
+
+await cl.Message(content=response, actions=actions).send()
+```
 
 ## 📁 Project Structure
 
 ```
 chainlit-customized/
-├── main.py                 # Main application
-├── chainlit.md            # Welcome message
-├── pyproject.toml         # Project configuration
-└── public/                # Static files
-    ├── elements/          # Custom React components
-    │   ├── CustomPrompts.jsx
-    │   └── InfoCards.jsx
-    ├── styles.css         # Custom styles
-    └── script.js          # Custom JavaScript
+├── main.py                          # Main application logic
+├── config_editor.py                 # UI settings configuration
+├── chainlit.md                      # Welcome page content
+├── pyproject.toml                   # Project dependencies
+└── public/                          # Static assets
+    ├── elements/                    # Custom React components
+    │   ├── CustomPrompts.jsx        # Interactive prompt management
+    │   ├── CustomPromptsList.jsx    # Editable prompt list
+    │   ├── InfoCards.jsx            # Structured data cards
+    │   └── StarfieldBackground.jsx  # Animated background
+    ├── styles.css                   # Global styles and themes
+    └── themeToggle.js              # Theme switching logic
 ```
 
 ## 🔧 Customization Examples
 
-### Adding Chat Profiles
-```python
-chat_profiles = [
-    cl.ChatProfile(
-        name="New Assistant",
-        markdown_description="Description of new assistant",
-        icon="https://example.com/icon.png",
-        starters=[
-            cl.Starter(
-                label="Quick Start",
-                message="Hello, how can you help me?"
-            )
-        ]
-    )
-]
-```
+### Adding New Chat Profiles
 
-### Creating Custom Elements
 ```python
-await cl.Message(
-    content="Custom element example",
-    elements=[
-        cl.CustomElement(
-            name="YourCustomComponent",
-            props={"data": your_data}
+new_profile = cl.ChatProfile(
+    name="Custom Assistant",
+    markdown_description="Your custom assistant description",
+    icon="https://example.com/icon.png",
+    starters=[
+        cl.Starter(
+            label="Quick Start",
+            message="Hello! How can I help you today?"
         )
     ]
-).send()
+)
 ```
 
-### Adding Custom Prompts
+### Creating Custom React Components
+
+```jsx
+// Create new component in public/elements/
+function CustomWidget({data}) {
+    const [state, setState] = useState(data);
+    
+    return (
+        <div className="custom-widget">
+            <h3>{data.title}</h3>
+            <div className="widget-content">
+                {/* Your custom content */}
+            </div>
+        </div>
+    );
+}
+```
+
+### Adding Action Callbacks
+
 ```python
-# In show_custom_prompts() function
-prompts_data = [
-    {
-        "id": "custom1",
-        "title": "Your Custom Prompt",
-        "prompt": "Your prompt text here",
-        "icon": "🆕",
-        "category": "Custom"
-    }
-]
+@cl.action_callback("action_custom")
+async def on_action_custom(action):
+    payload = action.payload
+    # Process the action
+    
+    follow_up_actions = [
+        cl.Action(name="action_follow_up", label="Continue", payload={"next": "step"})
+    ]
+    
+    await cl.Message(
+        content="Action processed successfully!",
+        actions=follow_up_actions
+    ).send()
 ```
 
-### Right-side Panel Implementation
-```python
-# Display files in side panel
-sidebar_elements = []
-for file in files:
-    if file.mime and file.mime.startswith('image/'):
-        sidebar_elements.append(cl.Image(name=file.name, path=file.path))
-    elif file.mime == 'application/pdf':
-        sidebar_elements.append(cl.Pdf(name=file.name, path=file.path))
-    else:
-        sidebar_elements.append(cl.Text(name=file.name, content=content))
+### CSS Theme Customization
 
-await cl.ElementSidebar.set_elements(sidebar_elements)
-await cl.ElementSidebar.set_title("アップロードファイル")
-```
-
-### Styling with CSS Variables
 ```css
+/* Light theme */
 :root {
   --primary-color: #667eea;
-  --surface-color: white;
+  --secondary-color: #764ba2;
+  --surface-color: #ffffff;
   --text-color: #1f2937;
   --border-color: #e5e7eb;
 }
 
+/* Dark theme */
 [data-theme="dark"] {
+  --primary-color: #4f46e5;
+  --secondary-color: #7c3aed;
   --surface-color: #1f2937;
   --text-color: #f9fafb;
   --border-color: #374151;
 }
 ```
 
-## 🎬 Demo Features
+## � Demo Scenarios
 
-1. **Basic Chat**: Interaction with each profile
-2. **Custom Prompts**: `🎨` command for prompt selection with editable interface
-3. **File Processing**: Document Helper file upload with analysis
-4. **Right-side Panel Display**: Uploaded files automatically displayed in side panel
-5. **Action Buttons**: Interactive UI components with follow-up actions
-6. **Theme Support**: Automatic dark/light mode detection
-7. **Responsive Design**: Works on desktop and mobile devices
-8. **Local Storage**: Custom prompts are saved locally
-9. **Command System**: Built-in commands for quick access to features
+### 1. UI Customization Showcase
+- Modern glassmorphism effects
+- Smooth animations and transitions
+- Responsive grid layouts
+- Interactive hover states
 
-## 🛠️ Development
+### 2. Component Interaction
+- Editable prompt management
+- Local storage persistence
+- Real-time state updates
+- Category-based organization
 
-### File Structure Details
-- `main.py`: Core application logic and chat handlers
-- `.chainlit/config.toml`: Configuration with wide layout for side panel
-- `public/elements/`: React components for custom UI elements
-- `public/styles.css`: Global styles and theme variables
-- `public/themeToggle.js`: Theme switching functionality
-- `chainlit.md`: Welcome message displayed on startup
-- `USAGE.md`: Detailed usage guide and customization instructions
+### 3. File Processing Workflow
+- Drag & drop file upload
+- Automatic MIME type detection
+- Dynamic sidebar rendering
+- Multi-format support
 
-### Adding New Features
-1. **New Chat Profile**: Add to `chat_profiles` list and create handler function
-2. **Custom Component**: Create JSX file in `public/elements/` and use with `cl.CustomElement`
-3. **New Commands**: Add to `commands` list in `start()` function
-4. **Right-side Panel**: Use `cl.ElementSidebar.set_elements()` to display content
-5. **Styling**: Use CSS variables for consistent theming
+### 4. Action-Based Conversations
+- Contextual button generation
+- Follow-up message flows
+- Payload-based routing
+- Dynamic content updates
+
+## 🚀 Advanced Features
+
+### Local Storage Integration
+- **Persistent Preferences**: User customizations saved across sessions
+- **Custom Prompts**: Editable and persistent prompt collections
+- **Theme Selection**: Automatic theme preference storage
+
+### Modern CSS Techniques
+- **CSS Grid & Flexbox**: Responsive layout systems
+- **Custom Properties**: Theme-aware color systems
+- **Backdrop Filters**: Glassmorphism visual effects
+- **CSS Animations**: Smooth transitions and micro-interactions
+
+### React Component System
+- **State Management**: Local state with hooks
+- **Event Handling**: Interactive user experiences
+- **Props Interface**: Dynamic data binding
+- **Lifecycle Management**: Efficient rendering patterns
+
+## 🛠️ Development Guidelines
+
+### File Organization
+- **Components**: Place React components in `public/elements/`
+- **Styles**: Use CSS variables for theme consistency
+- **Logic**: Keep business logic in Python files
+- **Assets**: Store static files in `public/` directory
+
+### Best Practices
+- **Responsive First**: Design for mobile, enhance for desktop
+- **Performance**: Optimize for fast loading and smooth interactions
+- **Accessibility**: Ensure keyboard navigation and screen reader support
+- **Theme Support**: Use CSS variables for consistent theming
 
 ### Troubleshooting
-- **Port in use**: Use `--port 8001` flag
-- **Module errors**: Run `uv sync` to install dependencies
-- **Custom elements not loading**: Check JSX syntax and file names
-- **Styles not applying**: Verify CSS variable names and theme selectors
+- **Port Conflicts**: Use `--port 8001` flag if default port is occupied
+- **Dependency Issues**: Run `uv sync` to reinstall dependencies
+- **Component Errors**: Check browser console for React/JSX syntax errors
+- **Style Issues**: Verify CSS variable names and theme selectors
 
 ## 🤝 Contributing
 
-This project is created for learning and sharing Chainlit customization techniques.
+This project demonstrates production-ready UI customization techniques for Chainlit applications. Contributions that enhance the educational value are welcome:
 
-### Improvement Suggestions
-- Add new customization techniques
-- UI/UX improvements
-- Performance optimization
+### Enhancement Areas
+- Additional UI/UX patterns
+- New interactive components
+- Performance optimizations
 - Documentation improvements
-- More interactive examples
-- Additional React components
+- Mobile experience enhancements
+- Accessibility improvements
+
+### Development Workflow
+1. Fork the repository
+2. Create a feature branch
+3. Implement changes with documentation
+4. Test across different devices/browsers
+5. Submit a pull request with examples
+
+## 📚 Learning Resources
+
+### Chainlit Documentation
+- [Official Docs](https://docs.chainlit.io/)
+- [Custom Elements Guide](https://docs.chainlit.io/concepts/element)
+- [Chat Profiles](https://docs.chainlit.io/concepts/chat-profile)
+
+### UI/UX Design
+- [Modern CSS Techniques](https://web.dev/learn/css/)
+- [React Hooks Guide](https://react.dev/reference/react)
+- [Responsive Design Patterns](https://web.dev/responsive-web-design-basics/)
 
 ## 📝 License
 
-This project is released under the MIT License.
+This project is released under the MIT License. Feel free to use these techniques in your own Chainlit applications.
 
-## 🔗 Related Links
+## 🌟 Acknowledgments
 
-- [Chainlit Official Documentation](https://docs.chainlit.io/)
-- [Python uv](https://github.com/astral-sh/uv)
+- Chainlit team for the excellent framework
+- Modern web development community for CSS/React patterns
+- Contributors to UI/UX design principles showcased
+
+---
+
+*This demo serves as a comprehensive reference for implementing advanced UI customizations in Chainlit applications, showcasing modern web development techniques and interactive user experiences.*

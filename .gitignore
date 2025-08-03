@@ -3,3 +3,4 @@ sample/
 .venv/
 __pycache__/
 .claude/
+.amazonq/
