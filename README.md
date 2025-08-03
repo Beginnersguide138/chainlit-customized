@@ -279,8 +279,11 @@ uv run chainlit run main.py --port 8001
 # 🌐 Network access
 uv run chainlit run main.py --host 0.0.0.0
 
+# 🔄 Auto Reload
+uv run chainlit run main.py --watch
+
 # 🔍 Debug mode
-uv run chainlit run main.py -w
+uv run chainlit run main.py --debug
 ```
 
 ## 🎨 Implementation Highlights
@@ -375,8 +378,8 @@ await cl.Message(content=response, actions=actions).send()
 ├── ⚙️ config_editor.py                 # 🎛️ UI configuration management  
 ├── 📝 chainlit.md                      # 🏠 Welcome page content
 ├── 📦 pyproject.toml                   # 📋 Dependencies & project config
-├── 🔐 auth_system.py                   # 🔑 User authentication & sessions
-├── 🧠 memory_manager.py                # 💾 Conversation memory & context
+├── � uv.lock                          # � Dependency lock file
+├── 📄 LICENSE                          # � MIT License file
 │
 └── 🌐 public/                          # 📁 Frontend assets & components
     │
@@ -402,11 +405,12 @@ await cl.Message(content=response, actions=actions).send()
 ### 📊 **File Overview**
 
 | Type | Count | Purpose |
-|------|-------|---------|
-| 🐍 **Python** | 4 files | Backend logic, auth, memory |
+|------|-------|------------|
+| 🐍 **Python** | 2 files | Backend logic & configuration |
 | ⚛️ **React/JSX** | 4 files | Interactive UI components |
 | 🎨 **CSS/JS** | 2 files | Styling & client-side logic |
 | 📝 **Config** | 3 files | Project setup & documentation |
+| 📸 **Screenshots** | 5 files | Demo visuals & documentation |
 
 </div>
 
@@ -551,55 +555,6 @@ async def on_action_custom(action):
 - **Component Errors**: Check browser console for React/JSX syntax errors
 - **Style Issues**: Verify CSS variable names and theme selectors
 
-## 🤝 Contributing
-
-<div align="center">
-
-### 🚀 **Join the Community!**
-
-We welcome contributions that enhance the educational value and showcase new UI/UX possibilities!
-
-[![Contributors](https://contrib.rocks/image?repo=Beginnersguide138/chainlit-customized)](https://github.com/Beginnersguide138/chainlit-customized/graphs/contributors)
-
-</div>
-
-### 💡 **Enhancement Areas**
-
-<table>
-<tr>
-<td width="50%">
-
-#### 🎨 **UI/UX Improvements**
-- [ ] New interaction patterns
-- [ ] Advanced animations
-- [ ] Component libraries
-- [ ] Design system patterns
-
-#### 📱 **Experience Enhancements**  
-- [ ] Mobile optimizations
-- [ ] Accessibility features
-- [ ] Performance improvements
-- [ ] Browser compatibility
-
-</td>
-<td width="50%">
-
-#### 🔧 **Technical Features**
-- [ ] New React components
-- [ ] CSS methodology examples
-- [ ] Integration patterns
-- [ ] Developer tools
-
-#### 📚 **Documentation**
-- [ ] Tutorial improvements
-- [ ] Code examples
-- [ ] Best practices
-- [ ] Video guides
-
-</td>
-</tr>
-</table>
-
 ### 🛠️ **Development Workflow**
 
 ```bash
@@ -610,7 +565,7 @@ git clone https://github.com/your-username/chainlit-customized.git
 git checkout -b feature/amazing-new-component
 
 # 3️⃣ Develop & Test
-uv run chainlit run main.py --debug
+uv run chainlit run main.py --host 0.0.0.0 --debug
 
 # 4️⃣ Submit PR with examples
 git push origin feature/amazing-new-component
