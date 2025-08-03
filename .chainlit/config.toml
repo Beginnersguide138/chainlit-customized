@@ -65,7 +65,7 @@ edit_message = true
 
 [UI]
 # Name of the assistant.
-name = "Assistant"
+name = "Chainlit Demo by @Beginnersguide138"
 
 # default_theme = "dark"
 
@@ -119,11 +119,11 @@ default_avatar_file_url = ""
 # custom_build = "./public/build"
 
 # Specify optional one or more custom links in the header.
-# [[UI.header_links]]
-#     name = "Issues"
-#     display_name = "Report Issue"
-#     icon_url = "https://avatars.githubusercontent.com/u/128686189?s=200&v=4"
-#     url = "https://github.com/Chainlit/chainlit/issues"
+[[UI.header_links]]
+    name = "Issues"
+    display_name = "Report Issue"
+    icon_url = "https://avatars.githubusercontent.com/u/128686189?s=200&v=4"
+    url = "https://github.com/Chainlit/chainlit/issues"
 
 [meta]
 generated_by = "2.6.4"
